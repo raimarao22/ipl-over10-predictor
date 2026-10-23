@@ -1,0 +1,25 @@
+section,config,MAE,RMSE,signed,within15,MAE_2019_22,signed_2019_22,MAE_2023_24,signed_2023_24,alpha,features
+baseline,commentator: runs_10 x 2,21.977,27.946,-14.997,0.462,22.372,-15.937,21.28,-13.336,,
+baseline,learned ratio: runs_10 x k,20.274,25.555,2.951,0.422,19.785,1.366,21.14,5.754,,
+baseline,median of earlier totals,26.702,34.461,-10.793,0.399,23.348,-4.328,32.636,-22.231,,
+alpha,ridge alpha=0.1,16.914,21.157,-3.491,0.508,16.601,-1.473,17.467,-7.061,0.1,
+alpha,ridge alpha=1,16.912,21.156,-3.49,0.508,16.6,-1.474,17.465,-7.057,1.0,
+alpha,ridge alpha=10,16.898,21.141,-3.478,0.51,16.59,-1.475,17.443,-7.021,10.0,
+alpha,ridge alpha=100,16.821,21.079,-3.425,0.515,16.533,-1.504,17.331,-6.824,100.0,
+ladder,runs only,17.208,21.872,-3.074,0.523,16.805,-1.421,17.922,-5.998,,runs_10
+ladder,+ wickets,17.134,21.489,-4.625,0.508,16.484,-1.75,18.284,-9.712,,runs_10 wkts_10
+ladder,+ last 5 overs,17.188,21.507,-4.547,0.505,16.549,-1.696,18.32,-9.591,,runs_10 wkts_10 runs_last5 wkts_last5
+ladder,+ last 2 overs,17.199,21.478,-4.545,0.505,16.563,-1.724,18.325,-9.535,,runs_10 wkts_10 runs_last5 wkts_last5 runs_last2 wkts_last2
+ladder,+ venue,17.06,21.327,-3.913,0.503,16.539,-1.294,17.981,-8.547,,runs_10 wkts_10 runs_last5 wkts_last5 runs_last2 wkts_last2 venue_avg
+ladder,+ league scoring level,17.073,21.371,-4.116,0.513,16.533,-1.504,18.029,-8.737,,runs_10 wkts_10 runs_last5 wkts_last5 runs_last2 wkts_last2 venue_avg league_back10
+ladder,+ impact era (instead of league),16.796,21.02,-3.146,0.508,16.539,-1.294,17.25,-6.424,,runs_10 wkts_10 runs_last5 wkts_last5 runs_last2 wkts_last2 venue_avg impact_era
+ladder,+ both era features,16.821,21.079,-3.425,0.515,16.533,-1.504,17.331,-6.824,,runs_10 wkts_10 runs_last5 wkts_last5 runs_last2 wkts_last2 venue_avg league_back10 impact_era
+selected,"ridge, selected features",16.782,21.068,-3.689,0.513,16.484,-1.75,17.309,-7.12,,runs_10 wkts_10 impact_era
+window,start 2012,16.79,21.02,-3.027,0.51,16.525,-0.93,17.26,-6.738,,
+window,start 2015,16.845,21.004,-2.189,0.523,16.655,0.117,17.183,-6.27,,
+window,half-life 3 seasons,16.738,20.989,-2.596,0.523,16.585,-0.703,17.01,-5.945,,
+window,half-life 5 seasons,16.721,20.982,-2.951,0.518,16.517,-1.053,17.082,-6.308,,
+tree,gbr depth2 n200,16.521,20.557,-3.535,0.525,16.421,-1.614,16.699,-6.935,,
+tree,gbr depth3 n150,16.613,20.612,-3.76,0.515,16.415,-1.77,16.963,-7.281,,
+tree,rf leaf20,17.236,21.413,-4.466,0.52,16.618,-1.612,18.329,-9.515,,
+tree,rf leaf40,17.676,22.062,-4.797,0.503,17.087,-1.842,18.718,-10.024,,

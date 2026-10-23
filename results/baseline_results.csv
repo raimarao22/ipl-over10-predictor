@@ -1,0 +1,19 @@
+fold,baseline,n,k,MAE,RMSE,signed,within15
+2019,commentator (runs_10 x 2),59,2.231,24.407,31.33,-19.254,0.441
+2019,learned ratio (runs_10 x k),59,2.231,20.94,26.417,-2.037,0.441
+2019,median of earlier totals,59,2.231,22.39,29.763,-5.508,0.475
+2020,commentator (runs_10 x 2),60,2.233,20.067,25.268,-15.1,0.5
+2020,learned ratio (runs_10 x k),60,2.233,18.303,22.527,2.885,0.433
+2020,median of earlier totals,60,2.233,22.333,29.262,-6.5,0.5
+2021,commentator (runs_10 x 2),60,2.23,20.75,26.501,-13.95,0.517
+2021,learned ratio (runs_10 x k),60,2.23,19.171,24.098,2.765,0.4
+2021,median of earlier totals,60,2.23,25.017,31.451,3.683,0.4
+2022,commentator (runs_10 x 2),74,2.227,23.932,29.616,-15.581,0.365
+2022,learned ratio (runs_10 x k),74,2.227,20.623,26.787,2.097,0.473
+2022,median of earlier totals,74,2.227,23.581,29.973,-8.122,0.459
+2023,commentator (runs_10 x 2),73,2.225,19.384,24.961,-11.959,0.562
+2023,learned ratio (runs_10 x k),73,2.225,20.649,24.334,7.344,0.356
+2023,median of earlier totals,73,2.225,30.288,35.874,-19.521,0.301
+2024,commentator (runs_10 x 2),70,2.218,23.257,29.406,-14.771,0.4
+2024,learned ratio (runs_10 x k),70,2.218,21.715,28.364,4.318,0.429
+2024,median of earlier totals,70,2.218,35.086,45.804,-25.057,0.286

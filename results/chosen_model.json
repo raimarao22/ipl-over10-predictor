@@ -1,0 +1,52 @@
+{
+  "model": "ridge",
+  "alpha": 100,
+  "features": [
+    "runs_10",
+    "wkts_10",
+    "impact_era"
+  ],
+  "train_start": 2008,
+  "half_life": null,
+  "tolerance_runs": 0.1,
+  "weights": {
+    "target": "runs_to_come",
+    "fitted_on": "2008-2024",
+    "intercept": 94.470821,
+    "coefficients": {
+      "runs_10": 0.10897,
+      "wkts_10": -5.724692,
+      "impact_era": 8.765295
+    }
+  },
+  "interval_q05": -30.19,
+  "interval_q95": 38.69,
+  "validation": {
+    "MAE": 16.782,
+    "RMSE": 21.068,
+    "signed": -3.689,
+    "within15": 0.513,
+    "MAE_2019_22": 16.484,
+    "signed_2019_22": -1.75,
+    "MAE_2023_24": 17.309,
+    "signed_2023_24": -7.12,
+    "interval_coverage_2020_24": 0.872
+  },
+  "comparisons": {
+    "commentator x2": {
+      "diff": -5.2,
+      "ci_low": -6.6,
+      "ci_high": -3.77
+    },
+    "learned ratio": {
+      "diff": -3.49,
+      "ci_low": -4.93,
+      "ci_high": -2.1
+    },
+    "ridge on runs_10 only": {
+      "diff": -0.43,
+      "ci_low": -1.1,
+      "ci_high": 0.27
+    }
+  }
+}

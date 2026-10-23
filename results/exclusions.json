@@ -1,0 +1,11 @@
+{
+  "matches": 1243,
+  "kept": 1211,
+  "excluded": {
+    "rain_reduced_first_innings": 21,
+    "no_result": 9,
+    "ended_before_over10": 2
+  },
+  "kept_2008_2024": 1070,
+  "kept_2025_2026": 141
+}
