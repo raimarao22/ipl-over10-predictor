@@ -17,12 +17,13 @@ Decision rules (fixed before the final test):
   4. Tree ensemble: replaces ridge only if the paired-bootstrap 95% CI of
      (ensemble MAE - ridge MAE) lies entirely below 0.
 
-Outputs (data/):
+Outputs (results/, committed to the repo):
   validation_results.csv   every configuration tried, with its metrics
-  oos_predictions.csv      out-of-sample predictions of the chosen model (for intervals, website)
-  chosen_model.json        the frozen configuration used by final_test.py
+  oos_predictions.csv      out-of-sample predictions of the chosen model, folds 2019-2024
+  chosen_model.json        the frozen configuration and exact ridge weights
+                           (refit on all of 2008-2024), used by final_test.py and the website
 """
-import json, warnings
+import json, os, warnings
 import numpy as np
 import pandas as pd
 from sklearn.pipeline import make_pipeline
@@ -205,16 +206,44 @@ Q05, Q95 = O_final.resid.quantile(0.05), O_final.resid.quantile(0.95)
 print(f"  pooled coverage 2020-2024: {pooled_cov:.0%} (target 90%)")
 print(f"  interval for the final test (all folds' residuals): pred{Q05:+.1f} to pred{Q95:+.1f}")
 
+# ---------------------------------------------------------------- 9. frozen weights
+# Refit the chosen configuration on ALL development seasons (2008-2024).
+# This is the model final_test.py will evaluate, and the website will run in the browser.
+print("\n9. Frozen model: refit on all development seasons 2008-2024")
+weights = None
+if MODEL == "ridge":
+    tr = f[f.season >= window["start"]]
+    m = ridge(ALPHA)()
+    if window["half_life"] is None:
+        m.fit(tr[FEATURES], tr.runs_to_come)
+    else:
+        w = (0.5 ** ((DEV_END - tr.season) / window["half_life"])).values
+        m.fit(tr[FEATURES], tr.runs_to_come, ridge__sample_weight=w)
+    sc, rg = m.named_steps["standardscaler"], m.named_steps["ridge"]
+    coef = rg.coef_ / sc.scale_                              # back to original units
+    intercept = rg.intercept_ - float((coef * sc.mean_).sum())
+    weights = dict(target="runs_to_come", fitted_on="2008-2024",
+                   intercept=round(intercept, 6),
+                   coefficients={c: round(float(b), 6) for c, b in zip(FEATURES, coef)})
+    # sanity check: the plain formula reproduces the pipeline exactly
+    manual = intercept + tr[FEATURES].values @ coef
+    assert np.allclose(manual, m.predict(tr[FEATURES])), "weight export mismatch"
+    terms = " ".join(f"{b:+.3f}*{c}" for c, b in zip(FEATURES, coef))
+    print(f"  runs_to_come = {intercept:.2f} {terms}")
+    print("  predicted final total = runs_10 + runs_to_come")
+
 # ---------------------------------------------------------------- save
-pd.DataFrame(results).round(3).to_csv("data/validation_results.csv", index=False)
-O_final.to_csv("data/oos_predictions.csv", index=False)
+os.makedirs("results", exist_ok=True)
+pd.DataFrame(results).round(3).to_csv("results/validation_results.csv", index=False)
+O_final.round(3).to_csv("results/oos_predictions.csv", index=False)
 chosen = dict(model=MODEL, alpha=ALPHA, features=FEATURES, train_start=window["start"],
               half_life=window["half_life"], tolerance_runs=TOL,
+              weights=weights,
               interval_q05=round(Q05, 2), interval_q95=round(Q95, 2),
               validation=dict({k: round(v, 3) for k, v in metrics(O_final).items()},
                               interval_coverage_2020_24=round(pooled_cov, 3)),
               comparisons=comparisons)
-with open("data/chosen_model.json", "w") as fh:
+with open("results/chosen_model.json", "w") as fh:
     json.dump(chosen, fh, indent=2)
-print("\nSaved data/validation_results.csv, data/oos_predictions.csv, data/chosen_model.json")
+print("\nSaved results/validation_results.csv, results/oos_predictions.csv, results/chosen_model.json")
 print(json.dumps({k: chosen[k] for k in ["model", "alpha", "features", "train_start", "half_life"]}))

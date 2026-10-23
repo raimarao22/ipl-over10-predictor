@@ -4,6 +4,7 @@ Baselines on walk-forward folds within the DEVELOPMENT period (2008-2024).
 For each fold season s in 2019..2024: fit on seasons < s, evaluate on season s.
 Test seasons (2025-2026) are removed at load time and never used here.
 """
+import os
 import numpy as np
 import pandas as pd
 
@@ -34,4 +35,5 @@ for name, g in R.groupby("baseline", sort=False):
     w = g.n / g.n.sum()
     print(f"  {name:28s} MAE {np.sum(w*g.MAE):5.1f} | RMSE {np.sum(w*g.RMSE):5.1f} | "
           f"signed {np.sum(w*g.signed):+5.1f} | within 15: {np.sum(w*g.within15):.0%}")
-R.to_csv("data/baseline_results.csv", index=False)
+os.makedirs("results", exist_ok=True)
+R.round(3).to_csv("results/baseline_results.csv", index=False)

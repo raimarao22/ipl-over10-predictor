@@ -4,11 +4,11 @@ Reads the Cricsheet IPL JSON zip and builds one row per FIRST innings at the end
 
 Outputs (in data/):
     first_innings_over10.csv -> modelling table
-    exclusions.json          -> counts for the data funnel on the website
+    results/exclusions.json  -> counts for the data funnel on the website
 
 Cricsheet numbers overs from 0, so "end of over 10" = over indices 0..9 complete.
 """
-import json, zipfile, collections
+import json, zipfile, collections, os
 import pandas as pd
 
 ZIP_PATH = "data/ipl_male_json.zip"
@@ -109,7 +109,8 @@ def build():
     funnel = {"matches": n_matches, "kept": len(df), "excluded": dict(excluded),
               "kept_2008_2024": int((df.season <= 2024).sum()),
               "kept_2025_2026": int((df.season >= 2025).sum())}
-    with open("data/exclusions.json", "w") as f:
+    os.makedirs("results", exist_ok=True)
+    with open("results/exclusions.json", "w") as f:
         json.dump(funnel, f, indent=2)
     return df, funnel
 
