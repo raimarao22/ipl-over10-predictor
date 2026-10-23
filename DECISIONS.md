@@ -13,7 +13,10 @@ All evidence comes from walk-forward validation (folds 2019-2024) unless stated.
 | 2026-10-24 | Historical features use matches on strictly earlier dates only | check_features.py passes |
 | 2026-10-24 | First 11 innings of 2008 used as history only (warm-up) | Fewer than 10 earlier innings |
 | 2026-10-24 | venue_avg shrinkage strength m = 10 | Design choice; venues with few matches pulled toward league level |
-| | runs_last2 / wkts_last2 kept or dropped? | TBD |
-| | Era handling: league_back10 / impact_era / both? | TBD |
-| | Training window | TBD |
-| | Final model: ridge or tree ensemble? | TBD |
+| 2026-10-24 | Decision rules: drop a feature group if MAE worsens by < 0.1 runs; ensemble only if bootstrap CI < 0 | Fixed before the final test |
+| 2026-10-24 | Ridge alpha = 100 | Lowest walk-forward MAE on the full feature set (differences < 0.1 runs) |
+| 2026-10-24 | Features: runs_10, wkts_10, impact_era. Dropped last-5, last-2, venue, league_back10 | Backward elimination; see validation_results.csv |
+| 2026-10-24 | Era handling: impact_era indicator | Ladder: 16.80 vs 17.07 (league_back10) vs 16.82 (both) |
+| 2026-10-24 | Training window: 2008 onward, equal weight | Alternatives improved MAE by < 0.1 runs |
+| 2026-10-24 | Model: ridge, not gradient boosting | GBR minus ridge -0.26 runs, 95% CI [-0.71, +0.18] includes 0 |
+| 2026-10-24 | Validation result: MAE 16.8 vs 22.0 (x2) and 20.3 (ratio) | Paired bootstrap CIs exclude 0 |
