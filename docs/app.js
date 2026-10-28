@@ -554,7 +554,7 @@ function residualChart(rows) {
   }));
 }
 
-// ---------------------------------------------------------------- 240 balls to one row (preprocessing tab)
+// ---------------------------------------------------------------- ball-by-ball innings to one row (preprocessing tab)
 function ballsView(innings, explorer) {
   const sel = $("balls-sel");
   const date = (d) => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
@@ -807,6 +807,9 @@ function compare(s) {
     `${Math.abs(g.add_era_to_score_and_wickets.ci_low).toFixed(2)}), ${Math.abs(g.add_era_to_score_and_wickets_2023_24.diff).toFixed(2)} in 2023&ndash;2024 alone. ` +
     `Adding wickets to the score lowered the error by only ${Math.abs(g.add_wickets_to_score.diff).toFixed(2)} runs, and its 95% CI ` +
     `(${g.add_wickets_to_score.ci_low.toFixed(2)} to +${g.add_wickets_to_score.ci_high.toFixed(2)}) includes zero: not established. ` +
+    `Wickets were retained because removing them from the selected model increased walk-forward MAE by ` +
+    `${Math.abs(g.add_wickets_to_score_and_era.diff).toFixed(2)} runs, exceeding our predefined 0.1-run simplification threshold; however, the confidence interval ` +
+    `(${g.add_wickets_to_score_and_era.ci_low.toFixed(2)} to +${g.add_wickets_to_score_and_era.ci_high.toFixed(2)}) includes zero, so their independent benefit is not statistically established. ` +
     `These checks were run after the model was chosen; they explain the result and did not change it.`;
   $("compare-list").appendChild(extra);
   // interpret the accuracy against the baselines and the task

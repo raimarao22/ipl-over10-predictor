@@ -137,7 +137,7 @@ for s in FOLDS:
                          worm=runs, wkts=wk))
 json.dump(rows, open(f"{OUT}/explorer.json", "w"), separators=(",", ":"))
 
-# ---------------------------------------------------------------- balls.json (240 balls to one row)
+# ---------------------------------------------------------------- balls.json (ball-by-ball innings to one row)
 # six validation innings, ball by ball: [runs, wicket 0/1, extra 0/1] per delivery
 sample_ids = pd.Series([r["id"] for r in rows]).sample(6, random_state=4).tolist()
 by_id = {r["id"]: r for r in rows}
