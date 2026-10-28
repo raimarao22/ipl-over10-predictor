@@ -188,7 +188,7 @@ tabInit.results = (d) => {
   const b = Object.fromEntries(d.summary.baselines.map((x) => [x.config, x.MAE]));
   $("st-model").textContent = d.summary.validation.MAE.toFixed(1);
   $("st-x2").textContent = b["commentator: runs_10 x 2"].toFixed(1);
-  $("st-ratio").textContent = b["learned ratio: runs_10 x k"].toFixed(1); if (window.Chart) { compare(d.summary); calibChart(d.summary.calibration); } foldTable(d.summary.folds); };
+  $("st-ratio").textContent = b["learned ratio: runs_10 x k"].toFixed(1); if (window.Chart) { compare(d.summary); calibChart(d.summary.calibration); } finalTest(d.summary); foldTable(d.summary.folds); };
 tabInit.errors = (d) => { if (window.Chart) explorerView(d.explorer); };
 
 // ---------------------------------------------------------------- home: calculator
@@ -309,6 +309,43 @@ function homeCards(s) {
   $("card-innings").textContent = s.funnel.kept.toLocaleString();
   $("card-mae").textContent = s.validation.MAE.toFixed(1);
   $("card-x2").textContent = base["commentator: runs_10 x 2"].toFixed(1);
+  if (s.final_test) {
+    const o = s.final_test.overall;
+    $("card-test").textContent = ` On the unseen 2025\u20132026 seasons, tested once: ${o.model.MAE.toFixed(1)} against ${o.commentator.MAE.toFixed(1)}.`;
+  }
+}
+
+// ---------------------------------------------------------------- results: the one-time final test
+function finalTest(s) {
+  const t = s.final_test, box = $("final-test");
+  if (!t) return;
+  const o = t.overall, c = t.comparisons, cov = t.interval_coverage;
+  const ci = (x) => `${Math.abs(x.ci_high).toFixed(1)} to ${Math.abs(x.ci_low).toFixed(1)}`;
+  const rows = [["Our model", "model", "model"], ["Commentator (score \u00d7 2)", "commentator", "comm"],
+                ["Learned ratio", "learned_ratio", "ratio"], ["Typical total", "median_total", "other"]];
+  box.className = "final-done";
+  box.innerHTML =
+    `<h3>Final test on 2025\u20132026</h3>` +
+    `<p class="ft-lead">Run once, on ${t.n} innings the model had never seen, with the frozen model and a test plan fixed in advance ` +
+    `(<code>src/final_test.py</code>). The pre-set rule: claim the model beats doubling only if the 95% CI of the gain excludes zero. ` +
+    `<strong>${t.primary_claim_supported ? "It does." : "It does not."}</strong></p>` +
+    `<div class="table-wrap"><table><thead><tr><th scope="col">Method</th><th scope="col" class="num">Test MAE (runs)</th>` +
+    `<th scope="col" class="num">Signed error</th><th scope="col" class="num">Within 15 runs</th></tr></thead><tbody>` +
+    rows.map(([label, k, cls]) => `<tr class="${cls}"><td>${label}</td><td class="num">${o[k].MAE.toFixed(1)}</td>` +
+      `<td class="num">${signed(o[k].signed)}</td><td class="num">${Math.round(o[k].within15 * 100)}%</td></tr>`).join("") +
+    `</tbody></table></div>` +
+    `<ul class="results-list">` +
+    `<li>Against the <strong>commentator rule</strong>: ${Math.abs(c.model_vs_commentator.diff).toFixed(1)} runs lower error (95% CI ${ci(c.model_vs_commentator)}). ` +
+      `Validation had 5.2, so the gain held on new seasons.</li>` +
+    `<li>Against the <strong>learned ratio</strong>: ${Math.abs(c.model_vs_learned_ratio.diff).toFixed(1)} runs lower (${ci(c.model_vs_learned_ratio)}). ` +
+      `The ratio over-predicted by about ${Math.round(o.learned_ratio.signed)} runs: teams scored faster early in these seasons, so multiplying the over-10 score overshot.</li>` +
+    `<li>Our model's error, ${o.model.MAE.toFixed(1)} runs, matches its ${s.validation.MAE.toFixed(1)} on validation, and its average bias shrank to ` +
+      `${signed(o.model.signed)} runs (validation 2023\u20132024: ${signed(s.validation.signed_2023_24)}).</li>` +
+    `<li>The 90% range caught ${(cov.overall * 100).toFixed(1)}% of innings (${Object.entries(cov.per_season).map(([y, v]) => `${y}: ${(v * 100).toFixed(1)}%`).join(", ")}), ` +
+      `close to the 87% on validation: still slightly too narrow.</li>` +
+    `</ul>` +
+    `<p class="caption">Per season, our model's MAE: ${Object.entries(t.per_season).map(([y, v]) => `${y} ${v.model.MAE.toFixed(1)} (${v.n} innings)`).join(", ")}. ` +
+    `With only ${t.n} innings the test is less precise than validation, so the confidence intervals matter more than the exact figures. The model was not changed after this test.</p>`;
 }
 
 function scatterChart(rows) {
@@ -781,7 +818,8 @@ function compare(s) {
     `${(b["learned ratio: runs_10 x k"] - s.validation.MAE).toFixed(1)} lower than the learned ratio's ${b["learned ratio: runs_10 x k"].toFixed(1)}. ` +
     `Ignoring the innings and guessing the typical total misses by ${b["median of earlier totals"].toFixed(1)}. ` +
     `For scale, the runs still to come after over 10 vary with a standard deviation of about ${Math.round(s.to_come_sd_2019_24)} runs, ` +
-    `so even the best method lands within 15 runs only about half the time. MAE is the average number of runs between a prediction and the real final total.`;
+    `so even the best method lands within 15 runs only about half the time. MAE is the average number of runs between a prediction and the real final total.` +
+    (s.final_test ? ` <strong>On the unseen 2025\u20132026 seasons, tested once, it scored ${s.final_test.overall.model.MAE.toFixed(1)}</strong> (see the end of this tab).` : "");
 }
 
 // is the 90% range honest? promised against actual coverage, 2020-2024

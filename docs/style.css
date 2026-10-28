@@ -697,3 +697,12 @@ input[type=range] { height: 26px; cursor: pointer; }
 .field.model[aria-pressed="true"] { border-color: var(--on-black); background: #222; }
 .ctl-label { display: inline-flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
 .limit-cards li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+/* final test result (results tab) */
+.final-done { border: 2px solid var(--model); background: var(--panel); padding: 1.1rem 1.3rem; margin: 2rem 0 0; max-width: none; }
+.final-done h3 { margin-top: 0; }
+.final-done .ft-lead { max-width: 75ch; }
+.final-done tr.model td:first-child { border-left: 6px solid var(--model); font-weight: 700; }
+.final-done tr.comm td:first-child { border-left: 6px solid var(--comm); }
+.final-done tr.ratio td:first-child { border-left: 6px solid var(--ratio); }
+.final-done tr.other td:first-child { border-left: 6px solid var(--other); }

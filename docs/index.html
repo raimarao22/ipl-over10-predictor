@@ -222,7 +222,7 @@
           <a class="card" href="#results">
             <h3>Validation error</h3>
             <p class="card-num model"><span id="card-mae">16.8</span> runs</p>
-            <p>Walk-forward validation MAE on 2019&ndash;2024, against <span id="card-x2">22.0</span> for the commentator rule. Each season was predicted using only earlier seasons.</p>
+            <p>Walk-forward validation MAE on 2019&ndash;2024, against <span id="card-x2">22.0</span> for the commentator rule. Each season was predicted using only earlier seasons.<span id="card-test"></span></p>
             <span class="card-link">See the results</span>
           </a>
         </div>
@@ -502,7 +502,7 @@
     <h3>Season by season</h3>
     <div class="table-wrap"><table id="fold-table"></table></div>
 
-    <div class="pending">
+    <div class="pending" id="final-test">
       <h3>Final test on 2025&ndash;2026</h3>
       <p>Not run yet. The model above is frozen; it will be tested once on the 141 innings from 2025 and 2026, and the results will appear here.</p>
     </div>
@@ -543,8 +543,8 @@
       <li><strong>No player information</strong> The model does not know who is batting or who is left to bowl.</li>
       <li><strong>Straight-line wicket effect</strong> The model takes off the same 5.7 runs for every wicket and cannot know an innings ends at 10 down. Most of the data is 0&ndash;5 wickets at over 10, so the predictor stops at 7 and flags 6&ndash;7 as rare.</li>
       <li><strong>Modest gains beyond the score</strong> Everything we added on top of the over-10 score improved the error by about 0.4 runs, and that total is not statistically established. Only the era indicator&rsquo;s share of it is, and that gain is almost all in 2023&ndash;2024.</li>
-      <li><strong>Slightly optimistic validation</strong> Choices were made on the same seasons we report, so the final test gives the fairer number.</li>
-      <li><strong>Small test set</strong> 141 innings in 2025&ndash;2026, so small differences there may be chance.</li>
+      <li><strong>Slightly optimistic validation</strong> Choices were made on the same seasons we report. The one-time test (16.7 on 2025&ndash;2026, against 16.8 on validation) suggests this optimism was small.</li>
+      <li><strong>Small test set</strong> 141 innings in 2025&ndash;2026, so the test is less precise than validation: the gain over doubling could be anywhere from about 3 to 8 runs, and the range coverage of 86.5% has a wide margin too.</li>
       <li><strong>Scope</strong> Rain-reduced matches and second innings are excluded, so results do not apply to them.</li>
     </ul>
   </section>
@@ -554,11 +554,11 @@
     <header class="chapter">
       <h2 class="lower-third">Conclusion</h2>
     </header>
-    <blockquote class="pull">At the halfway point, a simple model that knows the score, the wickets lost and the era misses by 16.8 runs on average, against 22.0 for the commentator's doubling rule: about a quarter less error.</blockquote>
+    <blockquote class="pull">At the halfway point, a simple model that knows the score, the wickets lost and the era misses by about 17 runs on average, against about 22 for the commentator's doubling rule, and the result held on two seasons it had never seen.</blockquote>
     <div class="concl-grid">
       <div><h3>What mattered</h3><p>Modelling the score properly: a straight line with its own starting point gives most of the gain over both rules. The Impact Player era indicator adds the only extra gain we could establish, about 0.35 runs, nearly all in 2023&ndash;2024.</p></div>
       <div><h3>What did not</h3><p>Recent momentum, the venue and gradient boosting each changed the error by less than 0.3 runs, which we could not tell apart from chance. Wickets clearly lower the runs still to come (about 6 runs each in the model), but adding them did not measurably improve accuracy.</p></div>
-      <div><h3>Still to come</h3><p>These are validation results. The conclusion is provisional until the one-time test on 2025&ndash;2026.</p></div>
+      <div><h3>Confirmed on unseen seasons</h3><p>In the one-time test on 141 innings from 2025&ndash;2026, the frozen model missed by 16.7 runs against 22.2 for doubling: 5.5 runs better (95% CI 3.1 to 8.0), matching its 16.8 on validation. The learned ratio did worse than doubling there, because teams scored faster early and the historical multiplier overshot.</p></div>
     </div>
     <h3>What we would try next</h3>
     <ul>
@@ -589,6 +589,7 @@
             <tr><td><code>ablation_all.py</code></td><td>All 64 feature combinations, and where the gain comes from (checked after the model was chosen)</td><td><code>ablation_all.csv</code>, <code>feature_gains.json</code></td></tr>
             <tr><td><code>leakage_demo.py</code></td><td>The deliberate leakage example</td><td>16.73 vs 16.59</td></tr>
             <tr><td><code>export_web.py</code></td><td>Writes this website's data files</td><td><code>docs/data/</code></td></tr>
+            <tr><td><code>final_test.py</code></td><td>One-time test of the frozen model on 2025&ndash;2026, fixed in advance; refuses a second run</td><td>MAE 16.7 vs 22.2 (x2)</td></tr>
           </tbody>
         </table></div>
       </div></li>
