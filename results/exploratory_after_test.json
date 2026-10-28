@@ -1,0 +1,99 @@
+{
+ "note": "Exploratory, run after the final test; not used for any decision.",
+ "impact_flag_by_fold": [
+  {
+   "fold": 2019,
+   "train_rows_with_flag": 0,
+   "era_weight": 0.0,
+   "mae_with_era": 17.09,
+   "mae_without_era": 17.09
+  },
+  {
+   "fold": 2020,
+   "train_rows_with_flag": 0,
+   "era_weight": 0.0,
+   "mae_with_era": 14.64,
+   "mae_without_era": 14.64
+  },
+  {
+   "fold": 2021,
+   "train_rows_with_flag": 0,
+   "era_weight": 0.0,
+   "mae_with_era": 18.26,
+   "mae_without_era": 18.26
+  },
+  {
+   "fold": 2022,
+   "train_rows_with_flag": 0,
+   "era_weight": 0.0,
+   "mae_with_era": 16.06,
+   "mae_without_era": 16.06
+  },
+  {
+   "fold": 2023,
+   "train_rows_with_flag": 0,
+   "era_weight": 0.0,
+   "mae_with_era": 17.11,
+   "mae_without_era": 17.11
+  },
+  {
+   "fold": 2024,
+   "train_rows_with_flag": 73,
+   "era_weight": 6.11,
+   "mae_with_era": 17.52,
+   "mae_without_era": 19.51
+  }
+ ],
+ "learned_ratio_by_fold": {
+  "2019": 2.229,
+  "2020": 2.231,
+  "2021": 2.229,
+  "2022": 2.226,
+  "2023": 2.224,
+  "2024": 2.217,
+  "final_2008_2024": 2.213
+ },
+ "runs_to_come_by_wickets": {
+  "0": {
+   "innings": 81,
+   "avg_to_come": 99.5
+  },
+  "1": {
+   "innings": 255,
+   "avg_to_come": 99.3
+  },
+  "2": {
+   "innings": 318,
+   "avg_to_come": 93.9
+  },
+  "3": {
+   "innings": 227,
+   "avg_to_come": 88.3
+  },
+  "4": {
+   "innings": 125,
+   "avg_to_come": 81.2
+  },
+  "5": {
+   "innings": 40,
+   "avg_to_come": 62.6
+  },
+  "6": {
+   "innings": 13,
+   "avg_to_come": 43.5
+  }
+ },
+ "variants_walk_forward_mae": {
+  "ridge_our_model": 16.782,
+  "ridge_wickets_squared": 16.734,
+  "ridge_wickets_as_categories": 16.676,
+  "ridge_runs_x_wickets": 16.808,
+  "gbr_our_3_features": 16.521,
+  "gbr_all_9_features": 16.959
+ },
+ "wicket_categories_vs_linear": {
+  "diff": -0.11,
+  "ci_low": -0.48,
+  "ci_high": 0.26
+ }
+}
