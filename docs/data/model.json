@@ -1,0 +1,13 @@
+{
+ "intercept": 94.470821,
+ "coefficients": {
+  "runs_10": 0.10897,
+  "wkts_10": -5.724692,
+  "impact_era": 8.765295
+ },
+ "interval_q05": -30.19,
+ "interval_q95": 38.69,
+ "ratio_k": 2.2129,
+ "fitted_on": "2008-2024",
+ "alpha": 100
+}

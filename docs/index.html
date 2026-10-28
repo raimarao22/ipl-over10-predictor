@@ -1,13 +1,621 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beat the Commentator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Beat the Commentator</title>
+  <meta name="description" content="Predicting an IPL first-innings total at the end of over 10, and comparing it with the commentator's rule of doubling the score. ES 335 project.">
+  <script>
+    // apply the saved or system theme before the page paints
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") t = "dark";
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:ital,wght@0,600;0,700;1,700;1,800&family=Big+Shoulders+Display:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Beat the Commentator: IPL Score Prediction at Over 10</h1>
-<p>ES 335 project by Raima Rao and Rishit Garg. Under construction.</p>
-<p>Data: <a href="https://cricsheet.org">Cricsheet</a> (CC-BY-4.0).</p>
+<a class="skip" href="#main-content">Skip to content</a>
+
+<header class="masthead">
+  <div class="mh-inner wrap">
+    <a class="brand" href="#home">Beat the Commentator</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Switch to light theme">Light</button>
+  </div>
+  <nav class="tabs" aria-label="Sections">
+    <div class="tabs-inner wrap">
+      <a href="#home">Home</a>
+      <a href="#question">Question</a>
+      <a href="#data">Data</a>
+      <a href="#preprocessing">Preprocessing</a>
+      <a href="#methods">Methods</a>
+      <a href="#evaluation">Evaluation</a>
+      <a href="#results">Results</a>
+      <a href="#errors">Errors</a>
+      <a href="#limitations">Limitations</a>
+      <a href="#conclusion">Conclusion</a>
+      <a href="#reproduce">Reproduce</a>
+    </div>
+  </nav>
+  <div class="seam" aria-hidden="true"></div>
+</header>
+
+<main id="main-content" tabindex="-1">
+  <!-- ======================================================= HOME -->
+  <section class="tab" id="home" aria-label="Home">
+
+    <div class="hero">
+      <svg class="stadium" viewBox="0 0 1600 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#050505"/><stop offset=".55" stop-color="#140608"/><stop offset="1" stop-color="#1c0a0d"/>
+          </linearGradient>
+          <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="glow" cx=".5" cy="1" r=".75">
+            <stop offset="0" stop-color="#e8323f" stop-opacity=".28"/><stop offset="1" stop-color="#e8323f" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#10180f"/><stop offset="1" stop-color="#070b07"/>
+          </linearGradient>
+          <pattern id="crowd" width="14" height="12" patternUnits="userSpaceOnUse">
+            <circle cx="4" cy="5" r="2.6" fill="#1b1b1d"/><circle cx="11" cy="8" r="2.3" fill="#151517"/>
+          </pattern>
+        </defs>
+        <rect width="1600" height="720" fill="url(#sky)"/>
+        <rect width="1600" height="720" fill="url(#glow)"/>
+        <!-- floodlight beams -->
+        <polygon points="190,120 260,120 760,720 -200,720" fill="url(#beam)"/>
+        <polygon points="1340,120 1410,120 1800,720 840,720" fill="url(#beam)"/>
+        <polygon points="520,190 570,190 900,720 260,720" fill="url(#beam)" opacity=".6"/>
+        <polygon points="1030,190 1080,190 1340,720 700,720" fill="url(#beam)" opacity=".6"/>
+        <!-- towers -->
+        <g fill="#0e0e10">
+          <rect x="220" y="150" width="10" height="330"/><rect x="1370" y="150" width="10" height="330"/>
+          <rect x="541" y="215" width="7" height="230"/><rect x="1052" y="215" width="7" height="230"/>
+        </g>
+        <g fill="#fff">
+          <g id="bank"><rect x="190" y="104" width="70" height="46" rx="3" fill="#1a1a1c"/>
+            <circle cx="203" cy="117" r="5"/><circle cx="218" cy="117" r="5"/><circle cx="233" cy="117" r="5"/><circle cx="248" cy="117" r="5"/>
+            <circle cx="203" cy="136" r="5"/><circle cx="218" cy="136" r="5"/><circle cx="233" cy="136" r="5"/><circle cx="248" cy="136" r="5"/></g>
+          <use href="#bank" x="1150"/>
+          <g transform="translate(520 182) scale(.72)"><rect width="70" height="46" rx="3" fill="#1a1a1c"/>
+            <circle cx="13" cy="13" r="5"/><circle cx="28" cy="13" r="5"/><circle cx="43" cy="13" r="5"/><circle cx="58" cy="13" r="5"/>
+            <circle cx="13" cy="32" r="5"/><circle cx="28" cy="32" r="5"/><circle cx="43" cy="32" r="5"/><circle cx="58" cy="32" r="5"/></g>
+          <g transform="translate(1030 182) scale(.72)"><rect width="70" height="46" rx="3" fill="#1a1a1c"/>
+            <circle cx="13" cy="13" r="5"/><circle cx="28" cy="13" r="5"/><circle cx="43" cy="13" r="5"/><circle cx="58" cy="13" r="5"/>
+            <circle cx="13" cy="32" r="5"/><circle cx="28" cy="32" r="5"/><circle cx="43" cy="32" r="5"/><circle cx="58" cy="32" r="5"/></g>
+        </g>
+        <!-- stands and crowd -->
+        <path d="M0 470 Q800 380 1600 470 L1600 560 L0 560 Z" fill="#0b0b0c"/>
+        <path d="M0 470 Q800 380 1600 470 L1600 560 L0 560 Z" fill="url(#crowd)" opacity=".9"/>
+        <path d="M0 470 Q800 380 1600 470" fill="none" stroke="#e8323f" stroke-width="3" opacity=".7"/>
+        <!-- outfield, pitch and creases -->
+        <ellipse cx="800" cy="720" rx="1050" ry="200" fill="url(#field)"/>
+        <polygon points="770,560 830,560 870,720 730,720" fill="#3a3124" opacity=".85"/>
+        <g stroke="#f2efe6" stroke-width="2" opacity=".75">
+          <line x1="765" y1="575" x2="835" y2="575"/><line x1="745" y1="680" x2="855" y2="680"/>
+        </g>
+        <g fill="#f2efe6" opacity=".85">
+          <rect x="795" y="566" width="2" height="9"/><rect x="799" y="566" width="2" height="9"/><rect x="803" y="566" width="2" height="9"/>
+        </g>
+      </svg>
+      <div class="hero-text wrap">
+        <p class="kicker">ES 335 Machine Learning project</p>
+        <h1>Halfway through an IPL innings, where will it finish?</h1>
+        <p class="hero-sub">We predict a first-innings total at the end of over 10 and test it against the TV commentator's rule of doubling the score.</p>
+        <div class="hero-btns"><button type="button" class="btn primary big" id="to-predictor">Try the predictor</button>
+        <button type="button" class="btn ghost big" id="to-game">Play: beat the model</button></div>
+      </div>
+    </div>
+
+    <div class="band predictor" id="predictor">
+      <div class="wrap pred-grid">
+        <div class="pred-inputs" aria-label="Match situation at the end of over 10">
+          <h2 class="lower-third">Set the match situation</h2>
+          <div class="bug-score"><output id="sb-runs">84</output><span class="slash">/</span><output id="sb-wkts">2</output></div>
+          <p class="bug-overs">after 10 overs</p>
+          <div class="ctl">
+            <label for="in-runs">Runs at over 10</label>
+            <div class="runs-ctl">
+              <input id="in-runs" type="range" min="30" max="160" value="84">
+              <input id="in-runs-n" type="number" min="30" max="160" value="84" aria-label="Runs at over 10, exact value">
+            </div>
+          </div>
+          <div class="ctl">
+            <span class="ctl-label"><label for="in-wkts">Wickets lost</label> <span class="term on-dark" tabindex="0" data-def="No team in 2008&ndash;2024 was more than 7 down at the end of over 10, and only 13 were 6 or 7 down. Beyond that the model would be guessing outside its data, so the slider stops at 7.">why max 7?</span></span>
+            <div class="runs-ctl">
+              <input id="in-wkts" type="range" min="0" max="7" step="1" value="2" aria-valuetext="2 wickets">
+              <output id="out-wkts" class="wk-out" for="in-wkts">2</output>
+            </div>
+          </div>
+          <div class="ctl">
+            <span id="era-label">Impact Player era</span>
+            <div class="seg" role="radiogroup" aria-labelledby="era-label">
+              <button type="button" role="radio" aria-checked="false" data-era="0">Before 2023</button>
+              <button type="button" role="radio" aria-checked="true" data-era="1">2023 onward</button>
+            </div>
+          </div>
+          <p class="pred-why">Why only these three? We also tested recent momentum, the venue and the league scoring level. None lowered the validation error by our 0.1-run threshold (the venue came closest, at 0.05 runs), so the model leaves them out.</p>
+        </div>
+
+        <div class="pred-result" aria-live="polite">
+          <p class="res-label">Predicted final total</p>
+          <output id="out-model" class="res-num">185</output>
+          <p class="res-range">90% range <span id="out-range">155&ndash;224</span> runs <span class="term on-dark" tabindex="0" data-def="The model gives an estimate, not a certainty. It aims to contain the real total 9 times out of 10. On 2020–2024 it actually did 87% of the time; the Results tab explains why.">what does this mean?</span></p>
+          <figure class="numberline" aria-hidden="true">
+            <div class="nl-dots" id="nl-dots"></div>
+            <div class="nl-track">
+              <div class="nl-band" id="nl-band"></div>
+              <span class="nl-mark comm" id="nl-x2"></span>
+              <span class="nl-mark ratio" id="nl-ratio"></span>
+              <span class="nl-mark model" id="nl-model"></span>
+            </div>
+            <div class="nl-axis" id="nl-axis"></div>
+          </figure>
+          <p class="nl-key"><span class="k-item"><span class="k-band"></span>Our 90% range (the model)</span><span class="k-item"><span class="k-dot"></span>Real past innings, not predictions</span></p>
+          <p class="sim-note" id="sim-note"></p>
+          <div class="vs">
+            <div class="proj comm"><span class="proj-name">Commentator<small>score &times; 2</small></span><output id="out-x2" class="proj-num">168</output></div>
+            <div class="proj ratio"><span class="proj-name">Learned ratio<small>score &times; <span id="k-label">2.21</span></small></span><output id="out-ratio" class="proj-num">186</output></div>
+          </div>
+          <details class="why" open>
+            <summary>Why this number?</summary>
+            <div class="why-rows" id="why-rows"></div>
+          </details>
+          <p class="bug-note" id="sb-note">Each wicket lost by over 10 lowers our projection by about 6 runs. The doubling rule ignores wickets entirely.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="band game" id="game">
+      <div class="wrap">
+        <h2 class="lower-third">Can you beat the model?</h2>
+        <p class="band-lead">Five real innings from 2019&ndash;2024, stopped at the end of over 10. Guess each final total, then see how you did against our model, the learned ratio and the commentator rule.</p>
+        <div class="game-grid">
+          <div class="game-board">
+            <p class="game-round" id="g-round">Innings 1 of 5</p>
+            <div class="game-state"><span id="g-score">0/0</span><small>after 10 overs, <span id="g-era">2023 onward</span></small></div>
+            <div class="chart-box game-chart"><canvas id="chart-game" aria-label="Runs by over for the current innings"></canvas></div>
+            <form class="game-form" id="g-form">
+              <label for="g-guess">Your guess for the final total</label>
+              <div class="game-input"><input id="g-guess" type="number" min="40" max="320" inputmode="numeric" required>
+                <button type="submit" class="btn primary" id="g-submit">Lock in guess</button></div>
+            </form>
+            <div class="game-reveal" id="g-reveal" hidden></div>
+            <button type="button" class="btn" id="g-next" hidden>Next innings</button>
+          </div>
+          <div class="game-score" aria-live="polite">
+            <h3>Average miss so far</h3>
+            <div class="gs-row you"><span>You</span><b id="gs-you">&ndash;</b></div>
+            <div class="gs-row model"><span>Our model</span><b id="gs-model">&ndash;</b></div>
+            <div class="gs-row ratio"><span>Learned ratio</span><b id="gs-ratio">&ndash;</b></div>
+            <div class="gs-row comm"><span>Commentator</span><b id="gs-comm">&ndash;</b></div>
+            <p class="caption" id="gs-note">Runs off the actual total, averaged over the innings you have played.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="band how fade">
+      <div class="wrap">
+        <h2 class="lower-third">How it works</h2>
+        <div class="cards">
+          <a class="card" href="#data">
+            <h3>The data</h3>
+            <p class="card-num" id="card-innings">1,211</p>
+            <p>IPL first innings from 2008 to 2026, ball by ball from Cricsheet, each frozen at the end of over 10.</p>
+            <span class="card-link">See the data</span>
+          </a>
+          <a class="card" href="#methods">
+            <h3>The model</h3>
+            <p class="card-num">3 inputs</p>
+            <p>Ridge regression on the score, wickets lost and the Impact Player era. Simple enough to run right here in your browser.</p>
+            <span class="card-link">See the method</span>
+          </a>
+          <a class="card" href="#results">
+            <h3>Validation error</h3>
+            <p class="card-num model"><span id="card-mae">16.8</span> runs</p>
+            <p>Walk-forward validation MAE on 2019&ndash;2024, against <span id="card-x2">22.0</span> for the commentator rule. Each season was predicted using only earlier seasons.</p>
+            <span class="card-link">See the results</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="band proof fade">
+      <div class="wrap">
+        <h2 class="lower-third">Predicted against what happened</h2>
+        <p class="band-lead">Every dot is a real innings from 2019&ndash;2024, predicted by a model that had only seen earlier seasons. Dots on the diagonal line are perfect predictions. Click any dot to see that innings over by over.</p>
+        <div class="proof-grid">
+          <div class="chart-box square"><canvas id="chart-scatter" aria-label="Predicted against actual first-innings totals, 2019 to 2024"></canvas></div>
+          <div class="match-cards" id="match-cards"></div>
+        </div>
+        <p><a class="btn" href="#errors">Explore every innings</a></p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================= QUESTION -->
+  <section class="tab wrap" id="question" aria-label="Question" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">The question</h2>
+    </header>
+    <p class="lead">Halfway through a T20 innings, broadcasters often project the final score by doubling the current total. We ask whether a model can do better, and which information beyond the score actually helps.</p>
+    <dl class="facts tiles">
+      <div><dt>One row</dt><dd>One IPL first innings, frozen at the end of over 10</dd></div>
+      <div><dt>Target</dt><dd>The final first-innings total, in runs</dd></div>
+      <div><dt>Prediction time</dt><dd>Immediately after the last ball of over 10</dd></div>
+      <div><dt>Known at that moment</dt><dd>Every ball of overs 1&ndash;10, the venue, the season, and results of earlier matches</dd></div>
+    </dl>
+    <p><strong>What we do not claim.</strong> The model covers IPL men's first innings scheduled for 20 overs. It predicts; it does not show what causes scores. It is not a betting tool.</p>
+  </section>
+
+  <!-- ======================================================= DATA -->
+  <section class="tab wrap" id="data" aria-label="Data" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">The data</h2>
+    </header>
+    <p>Ball-by-ball records for every IPL match from April 2008 to May 2026, from <a href="https://cricsheet.org">Cricsheet</a> (CC-BY-4.0). Each match file lists every delivery: runs, extras, wickets and the over it was bowled in.</p>
+
+    <div class="split">
+    <div>
+    <h3>From 1,243 matches to 1,211 innings</h3>
+    <div class="funnel" id="funnel"></div>
+    <p class="caption">Natural all-outs after over 10 stay in, so collapses remain in the data. Second innings are left out entirely: a chase stops once the target is reached, so its total measures something different.</p>
+
+    </div>
+    <div>
+    <h3>Scoring jumped from 2023</h3>
+    <div class="chart-box"><canvas id="chart-seasons" aria-label="Average first-innings total and average score at over 10, by season, 2008 to 2024"></canvas></div>
+    <p class="caption">Development seasons only (2008&ndash;2024). Average totals rose from 163 in 2008&ndash;2022 to 187 in 2023&ndash;2024, the first two seasons of the Impact Player rule. The rise coincides with the rule; we do not claim the rule caused it.</p>
+    </div>
+    </div>
+
+    <div class="era-compare">
+      <h3>Compare the two scoring eras</h3>
+      <div class="seg small" role="radiogroup" aria-label="Era">
+        <button type="button" role="radio" aria-checked="true" data-era="2008-2022">2008&ndash;2022</button>
+        <button type="button" role="radio" aria-checked="false" data-era="2023-2024">2023&ndash;2024</button>
+      </div>
+      <div class="split">
+        <div class="era-numbers" id="era-numbers"></div>
+        <div class="chart-box short"><canvas id="chart-era" aria-label="Average runs in overs 11 to 20 by wickets lost, for the selected era"></canvas></div>
+      </div>
+      <p class="caption">Development seasons only. The faded bars show the other era for comparison. Both halves of the innings got higher-scoring, which is why we tested an era indicator. It turned out to be the one extra feature with an established gain (see Results).</p>
+    </div>
+
+    <h3>Quality checks</h3>
+    <ul>
+      <li>Season labels such as &ldquo;2007/08&rdquo; are inconsistent, so the season comes from the match date.</li>
+      <li>The same ground appears under several names (for example Feroz Shah Kotla and Arun Jaitley Stadium), so venue names are standardised.</li>
+      <li>&ldquo;Retired hurt&rdquo; is not counted as a wicket.</li>
+      <li>Cricsheet numbers overs from 0. An independent over-by-over recount of random innings matched our values exactly.</li>
+      <li>Some seasons were played outside India: 2009 in South Africa, all of 2020 and parts of 2014 and 2021 in the UAE. The venue average we tested gives each ground its own history, so these seasons do not distort it (venue was not kept in the final model).</li>
+    </ul>
+  </section>
+
+  <!-- ======================================================= PREPROCESSING -->
+  <section class="tab wrap" id="preprocessing" aria-label="Preprocessing" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">Preprocessing</h2>
+    </header>
+    <p>Each innings is cut off at the end of over 10. The model predicts the <strong>runs still to come</strong> (final total minus the over-10 score), and we add the over-10 score back, so every error is reported on the final total.</p>
+
+    <div class="balls">
+      <h3>From an innings to one ML row</h3>
+      <p>Pick a real innings. The model only ever sees overs 1&ndash;10. Click a value in the row to see which balls it comes from.</p>
+      <label class="balls-pick">Innings <select id="balls-sel"></select></label>
+      <div class="balls-grid">
+        <div class="overs" id="balls-overs" aria-label="Ball-by-ball record of the selected innings"></div>
+        <div class="row-card">
+          <p class="row-title">The row the model sees</p>
+          <div class="row-fields" id="balls-row"></div>
+          <p class="row-title target">What it must predict</p>
+          <div class="row-fields" id="balls-target"></div>
+          <div class="ball-key">
+            <span><i class="b b0">&bull;</i> dot ball</span><span><i class="b b4">4</i> four</span><span><i class="b b6">6</i> six</span>
+            <span><i class="b bw">W</i> wicket</span><span><i class="b bx">1</i> wide or no-ball</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Features we tested</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Feature</th><th scope="col">What it measures</th><th scope="col">Kept?</th></tr></thead>
+        <tbody>
+          <tr><td>Runs at over 10</td><td>The score so far</td><td class="yes">Kept</td></tr>
+          <tr><td>Wickets at over 10</td><td>Batting resources used up</td><td class="yes">Kept</td></tr>
+          <tr><td>Impact Player era</td><td>1 for seasons from 2023</td><td class="yes">Kept</td></tr>
+          <tr><td>Runs and wickets in overs 6&ndash;10</td><td>Recent momentum</td><td class="no">Dropped</td></tr>
+          <tr><td>Runs and wickets in overs 9&ndash;10</td><td>Very recent momentum</td><td class="no">Dropped</td></tr>
+          <tr><td>Venue average</td><td>Earlier first-innings totals at this ground</td><td class="no">Dropped</td></tr>
+          <tr><td>League scoring level</td><td>Runs in overs 11&ndash;20 over the previous 30 innings</td><td class="no">Dropped</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">A feature group was dropped if removing it changed the validation error by less than 0.1 runs. Run rate, wickets in hand and balls left were never used: at a fixed over 10 they are constants or exact copies of the score and wickets.</p>
+
+    <h3>No peeking at the future</h3>
+    <ul>
+      <li>Venue and league averages for a match use only matches played on earlier dates.</li>
+      <li>The first 11 innings of 2008 have too little history for these averages, so they are used only as history, never for training.</li>
+      <li>Scaling is fitted on training seasons only, inside the model pipeline.</li>
+      <li>The 2025&ndash;2026 seasons are held back for one final test and were not used for any decision.</li>
+    </ul>
+
+    <div class="leak">
+      <h3>What leakage would have done</h3>
+      <p>A deliberate mistake, for teaching only. Here a model uses the score, wickets, era and the venue average. Switch how the venue average is calculated and watch the error.</p>
+      <div class="seg small" role="radiogroup" aria-label="How the venue average is calculated" id="leak-seg">
+        <button type="button" role="radio" aria-checked="true" data-v="correct">Correct: earlier matches only</button>
+        <button type="button" role="radio" aria-checked="false" data-v="leaky">Deliberately leaky (incorrect): all seasons, including later ones</button>
+      </div>
+      <div class="leak-out" aria-live="polite">
+        <p class="leak-badge" id="leak-badge">Correct method</p>
+        <div class="leak-num"><b id="leak-mae">16.73</b><span>walk-forward validation MAE, 2019&ndash;2024</span></div>
+        <p id="leak-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= METHODS -->
+  <section class="tab wrap" id="methods" aria-label="Baselines and methods" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">Baselines and methods</h2>
+    </header>
+    <h3>The rules to beat</h3>
+    <div class="rules">
+      <div class="rule comm"><p class="rule-name">Commentator rule</p><p class="rule-eq">score &times; 2</p><p>What broadcasters show at the halfway point.</p></div>
+      <div class="rule ratio"><p class="rule-name">Learned ratio</p><p class="rule-eq">score &times; 2.2</p><p>The average ratio of final total to over-10 score in earlier seasons. Fixes the doubling rule's habit of predicting too low.</p></div>
+      <div class="rule other"><p class="rule-name">Typical total</p><p class="rule-eq">median</p><p>The median total of earlier seasons, ignoring the innings entirely.</p></div>
+    </div>
+
+    <h3>Why doubling falls short</h3>
+    <p>Both rules draw a straight line from the over-10 score to the final total, and both force it through zero: a team on 0 is predicted to finish on 0. Try moving the line yourself. Each dot is one 2019&ndash;2024 innings.</p>
+    <div class="fit">
+      <div class="fit-ctl">
+        <label class="fit-sl" for="fit-s"><span>Slope <small>final runs per run at over 10</small></span><output id="fit-s-out">2.00</output>
+          <input id="fit-s" type="range" min="0.5" max="3" step="0.01" value="2"></label>
+        <label class="fit-sl" for="fit-a"><span>Starting point <small>runs added whatever the score</small></span><output id="fit-a-out">0</output>
+          <input id="fit-a" type="range" min="0" max="150" step="1" value="0"></label>
+        <div class="fit-presets" role="group" aria-label="Jump to a known line">
+          <button type="button" class="comm" data-line="x2">Commentator &times;2</button>
+          <button type="button" class="ratio" data-line="ratio">Learned ratio</button>
+          <button type="button" data-line="free">Best straight line</button>
+        </div>
+        <div class="fit-mae" aria-live="polite"><b id="fit-mae">22.0</b><span>runs average miss for your line</span><small id="fit-vs"></small></div>
+      </div>
+      <div class="chart-box"><canvas id="chart-fit" aria-label="Final total against score at over 10, 2019 to 2024, with the line you set"></canvas></div>
+    </div>
+    <p class="caption" id="fit-caption"></p>
+
+    <h3>Our model</h3>
+    <p><span class="term" tabindex="0" data-def="Linear regression with a penalty on large weights. The penalty keeps the model stable when features are related to each other.">Ridge regression</span>: a straight-line formula fitted to minimise squared error, with a small penalty that keeps the weights from growing too large. It is easy to interpret and small enough to run in your browser, which is how the calculator on the home tab works.</p>
+    <div class="formula" id="formula">runs still to come = 94.5 + 0.11 &times; runs at over 10 &minus; 5.7 &times; wickets + 8.8 &times; Impact era</div>
+    <p>Read it like this: start from 94.5 runs still to come, add 0.11 for every run already scored, take off about 6 for every wicket down, and add about 9 in the Impact Player era. For an average innings that comes to about 91 runs after over 10. The runs already scored only weakly predict how many are still to come.</p>
+
+    <div class="chart-box short"><canvas id="chart-wickets" aria-label="Average runs scored in overs 11 to 20 by wickets lost at over 10"></canvas></div>
+    <p class="caption">Average runs in overs 11&ndash;20 by wickets lost at over 10, development seasons. Teams with five or more down add about 40 fewer runs than teams with none.</p>
+
+    <h3>Checking the straight-line assumption</h3>
+    <p>If a straight-line model fits well, its errors should scatter evenly around zero, with no curve, at every level of prediction. Each dot is one 2019&ndash;2024 innings; the line is the average error in each band of predictions.</p>
+    <div class="chart-box"><canvas id="chart-resid" aria-label="Prediction errors against predicted total, 2019 to 2024"></canvas></div>
+    <p class="caption" id="resid-caption"></p>
+
+    <p>We also tried gradient boosting and random forests, which can capture interactions between features. Gradient boosting was 0.26 runs better on average, but the 95% confidence interval for that gap (&minus;0.71 to +0.18) includes zero, so we kept the simpler ridge model.</p>
+  </section>
+
+  <!-- ======================================================= EVALUATION -->
+  <section class="tab wrap" id="evaluation" aria-label="Evaluation" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">Evaluation design</h2>
+    </header>
+    <p>We never let the model learn from the future, using <span class="term" tabindex="0" data-def="Train on all seasons before a given season, predict that season, then move forward one season and repeat. It copies how the model would really be used.">walk-forward validation</span>. To test a season, we train only on the seasons before it, then move forward one season and repeat. Every model choice was made this way, on the 2019&ndash;2024 seasons.</p>
+    <div class="wf-step">
+      <button type="button" class="btn" id="wf-prev">Previous season</button>
+      <p id="wf-label" aria-live="polite">Predicting 2019</p>
+      <button type="button" class="btn" id="wf-next">Next season</button>
+    </div>
+    <div class="wf-stats" id="wf-stats" aria-live="polite"></div>
+    <div class="wf" id="wf" aria-label="Walk-forward validation: each season from 2019 to 2024 is predicted from earlier seasons; 2025 and 2026 are the final test"></div>
+    <div class="wf-key"><span class="k train">Training</span><span class="k val">Season being predicted</span><span class="k test">Final test, used once</span></div>
+
+    <h3>How we score predictions</h3>
+    <ul class="grid-list">
+      <li><strong>Average error (<span class="term" tabindex="0" data-def="Mean absolute error: the average number of runs between the prediction and the real total, ignoring whether it was too high or too low.">MAE</span>)</strong>How many runs off a prediction is, on average. Our main measure.</li>
+      <li><strong>Signed error</strong>Prediction minus actual, averaged. Negative means the method predicts too low.</li>
+      <li><strong><span class="term" tabindex="0" data-def="A bootstrap confidence interval: we resample the innings thousands of times and see how much the gap between two methods moves. If the 95% range excludes zero, the gap is very unlikely to be chance.">Confidence intervals</span></strong>We resample innings 5,000 times to check whether a gap between two methods could be chance.</li>
+      <li><strong>90% range</strong>Built from the model's past errors; we check how often real totals land inside it.</li>
+    </ul>
+  </section>
+
+  <!-- ======================================================= RESULTS -->
+  <section class="tab wrap" id="results" aria-label="Results" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">Results</h2>
+    </header>
+    <p class="lead" id="results-lead">Our model's walk-forward validation MAE is 16.8 runs, against 22.0 for the commentator rule and 20.3 for the learned ratio. MAE is the average number of runs between a prediction and the real final total.</p>
+    <div class="stats">
+      <div class="stat model"><b id="st-model">16.8</b><span>Our model</span></div>
+      <div class="stat comm"><b id="st-x2">22.0</b><span>Commentator rule</span></div>
+      <div class="stat ratio"><b id="st-ratio">20.3</b><span>Learned ratio</span></div>
+    </div>
+    <p class="caption">Walk-forward validation MAE in runs, seasons 2019&ndash;2024. Each season was predicted by a model trained only on earlier seasons.</p>
+
+    <div class="within">
+      <h3>How often is each method close?</h3>
+      <label class="within-ctl" for="within-x">Within <output id="within-out">15</output> runs of the actual total
+        <input id="within-x" type="range" min="5" max="50" step="1" value="15">
+      </label>
+      <div class="within-rows" id="within-rows"></div>
+      <p class="caption">Share of the 396 validation innings where each prediction landed within that many runs. Each prediction was made using earlier seasons only.</p>
+    </div>
+    <div class="split">
+      <div><div class="chart-box short"><canvas id="chart-compare" aria-label="Average error by method on validation seasons 2019 to 2024"></canvas></div></div>
+      <ul class="results-list" id="compare-list"></ul>
+    </div>
+
+    <h3>Is our 90% range honest?</h3>
+    <p>A range is only useful if it means what it says. For each season from 2020, we built the range from earlier seasons' errors only, then counted how often the real total landed inside. A perfectly honest range sits on the diagonal.</p>
+    <div class="split">
+      <div class="chart-box short"><canvas id="chart-calib" aria-label="Promised against actual coverage of the prediction range, 2020 to 2024"></canvas></div>
+      <div class="calib-side">
+        <p class="calib-big"><b id="calib-90">87%</b><span>of innings landed inside our &ldquo;90%&rdquo; range</span></p>
+        <div class="calib-seasons" id="calib-seasons"></div>
+      </div>
+    </div>
+    <p class="caption" id="calib-caption"></p>
+
+    <div class="abl">
+      <h3>Build your own model</h3>
+      <p>Every model uses the score at over 10. Tick extra features to see how accurate that model was on 2019&ndash;2024. All 64 combinations were trained and tested the same way as our final model.</p>
+      <div class="abl-grid">
+        <fieldset class="abl-boxes" id="abl-boxes">
+          <legend>Extra features</legend>
+        </fieldset>
+        <div class="abl-out" aria-live="polite">
+          <p class="abl-label">Walk-forward validation MAE with these features</p>
+          <p class="abl-num" id="abl-num">16.8</p>
+          <p class="abl-cmp" id="abl-cmp"></p>
+          <p class="abl-story" id="abl-story"></p>
+          <button type="button" class="btn" id="abl-reset">Show our chosen model</button>
+        </div>
+      </div>
+      <details class="abl-all">
+        <summary>View all 64 combinations</summary>
+        <div class="table-wrap abl-table" id="abl-table"></div>
+      </details>
+    </div>
+
+    <p class="caption">Most of the gain comes from fitting the relationship properly: a ridge model using only the over-10 score already beats both rules. Momentum and venue add almost nothing. The era indicator gives the clearest extra gain, all of it in 2023&ndash;2024.</p>
+
+    <h3>Season by season</h3>
+    <div class="table-wrap"><table id="fold-table"></table></div>
+
+    <div class="pending">
+      <h3>Final test on 2025&ndash;2026</h3>
+      <p>Not run yet. The model above is frozen; it will be tested once on the 141 innings from 2025 and 2026, and the results will appear here.</p>
+    </div>
+  </section>
+
+  <!-- ======================================================= ERRORS -->
+  <section class="tab wrap" id="errors" aria-label="Errors" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">Where predictions go wrong</h2>
+    </header>
+    <p>Pick any innings from the validation seasons. Each prediction was made by a model trained only on earlier seasons.</p>
+    <div class="filters">
+      <label>Season <select id="ex-season"></select></label>
+      <div class="seg small" role="radiogroup" aria-label="Show innings where">
+        <button type="button" role="radio" aria-checked="true" data-f="all">All</button>
+        <button type="button" role="radio" aria-checked="false" data-f="model">Model closer</button>
+        <button type="button" role="radio" aria-checked="false" data-f="comm">Commentator closer</button>
+        <button type="button" role="radio" aria-checked="false" data-f="miss">Model off by 30+</button>
+        <button type="button" role="radio" aria-checked="false" data-f="tag">Labelled misses</button>
+      </div>
+      <label class="grow">Innings <select id="ex-match"></select></label>
+    </div>
+    <div class="chart-box tall"><canvas id="chart-worm" aria-label="Runs by over for the selected innings, with each method's projection from over 10"></canvas></div>
+    <p class="ex-tags" id="ex-tags"></p>
+    <p class="caption">Labels: <strong>late collapse</strong> means 5 or more wickets fell after over 10 and the model was 30+ runs too high; <strong>late explosion</strong> means 75+ runs came in the last 5 overs and the model was 30+ runs too low; the third label marks innings every method missed by 35 runs or more.</p>
+    <div class="table-wrap"><table id="ex-table"></table></div>
+    <p class="caption" id="ex-count"></p>
+    <p>The largest misses tend to be late collapses, which no method can see at over 10, and late explosions, which push totals well past every projection. The 90% range is lopsided for the same reason: big totals overshoot more often than small ones fall short.</p>
+  </section>
+
+  <!-- ======================================================= LIMITATIONS -->
+  <section class="tab wrap" id="limitations" aria-label="Limitations" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">Limitations</h2>
+    </header>
+    <ul class="limit-cards">
+      <li><strong>Era shift</strong> Only two Impact Player seasons were available for training, and the model still underpredicts 2023&ndash;2024 by about 7 runs on average.</li>
+      <li><strong>No player information</strong> The model does not know who is batting or who is left to bowl.</li>
+      <li><strong>Straight-line wicket effect</strong> The model takes off the same 5.7 runs for every wicket and cannot know an innings ends at 10 down. Most of the data is 0&ndash;5 wickets at over 10, so the predictor stops at 7 and flags 6&ndash;7 as rare.</li>
+      <li><strong>Modest gains beyond the score</strong> Everything we added on top of the over-10 score improved the error by about 0.4 runs, and that total is not statistically established. Only the era indicator&rsquo;s share of it is, and that gain is almost all in 2023&ndash;2024.</li>
+      <li><strong>Slightly optimistic validation</strong> Choices were made on the same seasons we report, so the final test gives the fairer number.</li>
+      <li><strong>Small test set</strong> 141 innings in 2025&ndash;2026, so small differences there may be chance.</li>
+      <li><strong>Scope</strong> Rain-reduced matches and second innings are excluded, so results do not apply to them.</li>
+    </ul>
+  </section>
+
+  <!-- ======================================================= CONCLUSION -->
+  <section class="tab wrap" id="conclusion" aria-label="Conclusion" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">Conclusion</h2>
+    </header>
+    <blockquote class="pull">At the halfway point, a simple model that knows the score, the wickets lost and the era misses by 16.8 runs on average, against 22.0 for the commentator's doubling rule: about a quarter less error.</blockquote>
+    <div class="concl-grid">
+      <div><h3>What mattered</h3><p>Modelling the score properly: a straight line with its own starting point gives most of the gain over both rules. The Impact Player era indicator adds the only extra gain we could establish, about 0.35 runs, nearly all in 2023&ndash;2024.</p></div>
+      <div><h3>What did not</h3><p>Recent momentum, the venue and gradient boosting each changed the error by less than 0.3 runs, which we could not tell apart from chance. Wickets clearly lower the runs still to come (about 6 runs each in the model), but adding them did not measurably improve accuracy.</p></div>
+      <div><h3>Still to come</h3><p>These are validation results. The conclusion is provisional until the one-time test on 2025&ndash;2026.</p></div>
+    </div>
+    <h3>What we would try next</h3>
+    <ul>
+      <li>Player information, such as who is batting and how many overs the best bowlers have left.</li>
+      <li>Retraining as more Impact Player seasons arrive, which may reduce the underprediction of high-scoring innings.</li>
+      <li>A separate model for chases, which behave differently because the target shapes how teams bat.</li>
+    </ul>
+  </section>
+
+  <!-- ======================================================= REPRODUCE -->
+  <section class="tab wrap" id="reproduce" aria-label="Reproduce" hidden>
+    <header class="chapter">
+      <h2 class="lower-third">Reproduce our results</h2>
+    </header>
+    <ol class="steps">
+      <li><div>Clone the <a href="https://github.com/raimarao22/ipl-over10-predictor">repository</a> and install the libraries with <code>pip install -r requirements.txt</code> (pandas, NumPy, scikit-learn, Matplotlib).</div></li>
+      <li><div>Download the IPL JSON zip from <a href="https://cricsheet.org/downloads/">Cricsheet</a> into <code>data/</code>. Our copy: built 7 October 2026, 1,243 matches, SHA-256 <code class="hash">6fe9142db9e139e4f77a5634ddc61c1c72a26a56bee2fe5affe5921867de04b3</code>. A newer download may differ.</div></li>
+      <li><div>Run the scripts in <code>src/</code> from the repository root, in this order:
+        <div class="table-wrap"><table>
+          <thead><tr><th scope="col">Script</th><th scope="col">What it does</th><th scope="col">Output</th></tr></thead>
+          <tbody>
+            <tr><td><code>build_snapshots.py</code></td><td>One row per first innings at over 10, with exclusions</td><td>1,211 innings</td></tr>
+            <tr><td><code>check_snapshots.py</code></td><td>Recounts random innings over by over</td><td>All checks passed</td></tr>
+            <tr><td><code>baselines.py</code></td><td>Commentator rule, learned ratio, median</td><td>22.0 / 20.3 / 26.7</td></tr>
+            <tr><td><code>features.py</code></td><td>Venue average, league level, era, using earlier matches only</td><td>Feature table</td></tr>
+            <tr><td><code>check_features.py</code></td><td>Recomputes features by hand to rule out leakage</td><td>All feature checks passed</td></tr>
+            <tr><td><code>train_validate.py</code></td><td>All model choices on walk-forward folds; frozen weights</td><td>Validation MAE 16.8, <code>chosen_model.json</code></td></tr>
+            <tr><td><code>ablation_all.py</code></td><td>All 64 feature combinations, and where the gain comes from (checked after the model was chosen)</td><td><code>ablation_all.csv</code>, <code>feature_gains.json</code></td></tr>
+            <tr><td><code>leakage_demo.py</code></td><td>The deliberate leakage example</td><td>16.73 vs 16.59</td></tr>
+            <tr><td><code>export_web.py</code></td><td>Writes this website's data files</td><td><code>docs/data/</code></td></tr>
+          </tbody>
+        </table></div>
+      </div></li>
+      <li><div>Compare your output with the numbers above and with the files in <code>results/</code>, which record every result on this site.</div></li>
+    </ol>
+    <p>Split: development seasons 2008&ndash;2024, excluding the first 11 innings of 2008 (warm-up rows with too little history for the venue and league features, used only as history); walk-forward validation on 2019&ndash;2024; final test 2025&ndash;2026, run once. Random seed 0. Every modelling decision and its evidence is logged in <code>DECISIONS.md</code>.</p>
+
+    <h3>Team and AI use</h3>
+    <!-- who did what: to be added before submission -->
+    <p>Raima Rao and Rishit Garg, ES 335 Machine Learning, IIT Gandhinagar. We used Claude, an AI assistant, for planning, code drafting and editing. We ran and checked every result ourselves.</p>
+  </section>
+
+  <nav class="pager wrap" aria-label="Previous and next section">
+    <a class="btn" id="prev" href="#home">Previous</a>
+    <a class="btn primary" id="next" href="#question">Next</a>
+  </nav>
+</main>
+
+<footer>
+  <div class="wrap">
+  <p class="foot-title">Beat the Commentator</p>
+  <p>Raima Rao and Rishit Garg. ES 335 Machine Learning, IIT Gandhinagar, 2026.</p>
+  <p>Source code on <a href="https://github.com/raimarao22/ipl-over10-predictor">GitHub</a>. Data from <a href="https://cricsheet.org">Cricsheet</a>, CC-BY-4.0.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
