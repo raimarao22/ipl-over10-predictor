@@ -70,6 +70,7 @@ Where the gain comes from (`results/feature_gains.json`, checked after the model
   and the learned ratio by 3.1 (1.7 to 4.4): most of the gain is fitting the score with its own intercept.
 - The era indicator adds an established 0.35 runs (0.15 to 0.56), 0.97 in 2023-2024.
 - Adding wickets to the score changes MAE by 0.07 runs (CI -0.78 to +0.60): not established.
+- Wickets were retained because removing them from the selected model increased walk-forward MAE by 0.30 runs, exceeding our predefined 0.1-run simplification threshold; however, the confidence interval (-0.98 to +0.37) includes zero, so their independent benefit is not statistically established.
 
 Because choices were made on the same folds, these validation numbers are slightly optimistic;
 the 2025-2026 test gives the unbiased estimate.
