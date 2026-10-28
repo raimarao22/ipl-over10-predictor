@@ -39,7 +39,7 @@ Files in `results/` are committed so the repo records the claimed results.
 - Final test: 2025-2026 (141 innings), evaluated once by `src/final_test.py` after the model was frozen (run on 29 Oct 2026; results below).
 - Historical features always use matches from strictly earlier dates only.
 
-## Current selected model (validation only, 2025-2026 not used)
+## Selected model: validation results (2025-2026 not used for any choice)
 
 Selected by the rules in `src/train_validate.py`; full results in `results/`.
 
