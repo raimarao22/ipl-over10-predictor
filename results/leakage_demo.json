@@ -1,0 +1,57 @@
+{
+ "features": "runs_10, wkts_10, impact_era, venue average",
+ "correct_MAE": 16.727,
+ "leaky_MAE": 16.593,
+ "correct_folds": [
+  {
+   "fold": 2019,
+   "MAE": 17.1
+  },
+  {
+   "fold": 2020,
+   "MAE": 14.52
+  },
+  {
+   "fold": 2021,
+   "MAE": 18.32
+  },
+  {
+   "fold": 2022,
+   "MAE": 15.99
+  },
+  {
+   "fold": 2023,
+   "MAE": 16.93
+  },
+  {
+   "fold": 2024,
+   "MAE": 17.5
+  }
+ ],
+ "leaky_folds": [
+  {
+   "fold": 2019,
+   "MAE": 16.72
+  },
+  {
+   "fold": 2020,
+   "MAE": 14.84
+  },
+  {
+   "fold": 2021,
+   "MAE": 17.4
+  },
+  {
+   "fold": 2022,
+   "MAE": 16.18
+  },
+  {
+   "fold": 2023,
+   "MAE": 16.3
+  },
+  {
+   "fold": 2024,
+   "MAE": 18.04
+  }
+ ]
+}
