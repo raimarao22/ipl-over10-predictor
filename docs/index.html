@@ -591,7 +591,7 @@
             <tr><td><code>ablation_all.py</code></td><td>All 64 feature combinations, and where the gain comes from (checked after the model was chosen)</td><td><code>ablation_all.csv</code>, <code>feature_gains.json</code></td></tr>
             <tr><td><code>leakage_demo.py</code></td><td>The deliberate leakage example</td><td>16.73 vs 16.59</td></tr>
             <tr><td><code>export_web.py</code></td><td>Writes this website's data files</td><td><code>docs/data/</code></td></tr>
-            <tr><td><code>final_test.py</code></td><td>One-time test of the frozen model on 2025&ndash;2026, fixed in advance; refuses a second run</td><td>MAE 16.7 vs 22.2 (x2)</td></tr>
+            <tr><td><code>verify_final_test.py</code></td><td>Read-only check of the one-time final test (<code>final_test.py</code>, run once and never re-run): confirms the published predictions and numbers</td><td>MAE 16.7 vs 22.2 (x2), reproduced</td></tr>
             <tr><td><code>explore_after_test.py</code></td><td>Exploratory checks after the final test; not used for any decision</td><td><code>exploratory_after_test.json</code></td></tr>
           </tbody>
         </table></div>
