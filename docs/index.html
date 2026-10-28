@@ -376,7 +376,7 @@
     <h3>The rules to beat</h3>
     <div class="rules">
       <div class="rule comm"><p class="rule-name">Commentator rule</p><p class="rule-eq">score &times; 2</p><p>What broadcasters show at the halfway point.</p></div>
-      <div class="rule ratio"><p class="rule-name">Learned ratio</p><p class="rule-eq">score &times; 2.2</p><p>The average ratio of final total to over-10 score in earlier seasons. Fixes the doubling rule's habit of predicting too low.</p></div>
+      <div class="rule ratio"><p class="rule-name">Learned ratio</p><p class="rule-eq">score &times; 2.2</p><p>Total runs of all earlier innings divided by their total over-10 runs (2.22&ndash;2.23 for the validation seasons, 2.21 for the final test). Fixes the doubling rule's habit of predicting too low.</p></div>
       <div class="rule other"><p class="rule-name">Typical total</p><p class="rule-eq">median</p><p>The median total of earlier seasons, ignoring the innings entirely.</p></div>
     </div>
 
@@ -403,6 +403,7 @@
     <p><span class="term" tabindex="0" data-def="Linear regression with a penalty on large weights. The penalty keeps the model stable when features are related to each other.">Ridge regression</span>: a straight-line formula fitted to minimise squared error, with a small penalty that keeps the weights from growing too large. It is easy to interpret and small enough to run in your browser, which is how the calculator on the home tab works.</p>
     <div class="formula" id="formula">runs still to come = 94.5 + 0.11 &times; runs at over 10 &minus; 5.7 &times; wickets + 8.8 &times; Impact era</div>
     <p>Read it like this: start from 94.5 runs still to come, add 0.11 for every run already scored, take off about 6 for every wicket down, and add about 9 in the Impact Player era. For an average innings that comes to about 91 runs after over 10. The runs already scored only weakly predict how many are still to come.</p>
+    <p>The Impact Player indicator can only help once the model has seen that era. When predicting 2023, the training seasons (2008&ndash;2022) had no Impact Player matches, so the model gave the indicator no weight and predicted 2023 as if the rule did not exist. When predicting 2024, it had learned from 2023 (about +6 runs), which cut the 2024 error from 19.5 to 17.5 runs. The final model, trained on 2008&ndash;2024, adds about 9 runs.</p>
 
     <div class="chart-box short"><canvas id="chart-wickets" aria-label="Average runs scored in overs 11 to 20 by wickets lost at over 10"></canvas></div>
     <p class="caption">Average runs in overs 11&ndash;20 by wickets lost at over 10, development seasons. Teams with five or more down add about 40 fewer runs than teams with none.</p>
@@ -412,7 +413,8 @@
     <div class="chart-box"><canvas id="chart-resid" aria-label="Prediction errors against predicted total, 2019 to 2024"></canvas></div>
     <p class="caption" id="resid-caption"></p>
 
-    <p>We also tried gradient boosting and random forests, which can capture interactions between features. Gradient boosting was 0.26 runs better on average, but the 95% confidence interval for that gap (&minus;0.71 to +0.18) includes zero, so we kept the simpler ridge model.</p>
+    <p>We also tried gradient boosting and random forests, which can capture curved effects and interactions between features. Gradient boosting was 0.26 runs better on average, and better on 2023&ndash;2024 (16.7 against 17.3). To check whether that gap is real, we resampled the 396 validation innings 5,000 times and recomputed it each time: the middle 95% of those gaps ran from &minus;0.71 to +0.18 runs. That range includes zero, so the data is consistent with no real difference, and our rule, fixed in advance, was to switch only if the whole range was below zero. We kept the simpler ridge model.</p>
+    <p>What we did not try: the search over all 64 feature combinations used ridge only, and the tree models were tried only on the three selected features. A later check found gradient boosting with all nine features did worse (16.96), so more features did not help the trees either. We kept the list of models short on purpose: with about 400 validation innings, every extra model tried makes the best one look better by luck.</p>
   </section>
 
   <!-- ======================================================= EVALUATION -->
