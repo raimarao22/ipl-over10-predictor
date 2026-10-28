@@ -24,7 +24,7 @@ Website: https://raimarao22.github.io/ipl-over10-predictor/
 | 7 | `src/ablation_all.py` | All 64 feature combinations, plus where the gain comes from (checked after the model was chosen; reporting only) | `results/ablation_all.csv`, `results/feature_gains.json` |
 | 8 | `src/leakage_demo.py` | A deliberately leaky venue feature, for teaching (never used for a decision) | `results/leakage_demo.json` |
 | 9 | `src/export_web.py` | Writes the website's data files, from 2008-2024 only | `docs/data/*.json` |
-| 10 | `src/final_test.py` | **One-time** final test of the frozen model on 2025-2026 (not yet run; refuses to run twice) | `results/final_test.json`, `results/test_predictions.csv` |
+| 10 | `src/final_test.py` | **One-time** final test of the frozen model on 2025-2026 (run once on 29 Oct 2026; refuses to run twice) | `results/final_test.json`, `results/test_predictions.csv` |
 
 Scripts 7-9 only report; they never change the model. Script 10 is specified in advance (see its docstring
 and `DECISIONS.md`) and is run once.
@@ -35,7 +35,7 @@ Files in `results/` are committed so the repo records the claimed results.
 ## Split
 
 - Development: 2008-2024. Walk-forward folds: each season 2019-2024 is predicted using only earlier seasons.
-- Final test: 2025-2026 (141 innings), evaluated once by `src/final_test.py` after the model is frozen (not yet run).
+- Final test: 2025-2026 (141 innings), evaluated once by `src/final_test.py` after the model was frozen (run on 29 Oct 2026; results below).
 - Historical features always use matches from strictly earlier dates only.
 
 ## Current selected model (validation only, 2025-2026 not used)
@@ -71,6 +71,25 @@ Where the gain comes from (`results/feature_gains.json`, checked after the model
 
 Because choices were made on the same folds, these validation numbers are slightly optimistic;
 the 2025-2026 test gives the unbiased estimate.
+
+## Final test (2025-2026, run once)
+
+Frozen model and test plan fixed in advance (`src/final_test.py`, committed before the run); the model was not changed afterwards.
+
+| Method (141 innings, 2025-2026) | MAE (runs) | Signed error | Within 15 runs |
+|---|---|---|---|
+| **Selected ridge model** | **16.7** | -1.4 | 55% |
+| Commentator rule (runs_10 x 2) | 22.2 | -8.0 | 35% |
+| Learned ratio (runs_10 x k) | 24.1 | +11.8 | 40% |
+| Median of earlier totals | 37.7 | -28.8 | 28% |
+
+- vs x2 rule: 5.5 runs lower MAE (paired bootstrap 95% CI 3.1 to 8.0). The pre-specified claim
+  (CI entirely below 0) is **supported**.
+- vs learned ratio: 7.4 runs lower (95% CI 4.3 to 10.5). The ratio over-predicted by about 12 runs:
+  teams scored faster early in these seasons (finals were 2.09 x the over-10 score, against 2.21 historically).
+- Test MAE 16.7 matches validation 16.8, so the validation estimate was not noticeably optimistic.
+- 90% range coverage: 86.5% (122 of 141; 2025: 84.3%, 2026: 88.7%), close to 87% on validation; still slightly too narrow.
+- With 141 innings the test is less precise than validation; read the confidence intervals, not just the point estimates.
 
 ## Website
 

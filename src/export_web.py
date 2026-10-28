@@ -1,8 +1,8 @@
 """
 export_web.py
 Writes the small JSON files the website reads (docs/data/).
-Uses ONLY the development period (2008-2024). Test seasons are not exported until
-final_test.py has been run.
+Uses ONLY the development period (2008-2024). No 2025-2026 innings are ever exported; once
+final_test.py has been run, its aggregate results (results/final_test.json) are added to summary.json.
 
 Outputs:
   docs/data/model.json     frozen ridge weights, interval, learned ratio (calculator)
@@ -102,6 +102,10 @@ summary = dict(
            for row in fold_mae.itertuples()],
     validation=chosen["validation"], comparisons=chosen["comparisons"], gains=gains, to_come_sd_2019_24=r(fit[fit.season >= FOLDS[0]].runs_to_come.std()), eras=eras, ablation=ablation, leakage=leak,
     features=chosen["features"])
+if os.path.exists("results/final_test.json"):                # aggregate test results only, after the one run
+    ft = json.load(open("results/final_test.json"))
+    summary["final_test"] = {k: ft[k] for k in ["n", "test_seasons", "overall", "comparisons", "interval_coverage",
+                                                "per_season", "primary_claim_supported"]}
 json.dump(summary, open(f"{OUT}/summary.json", "w"), indent=1)
 
 # ---------------------------------------------------------------- explorer.json

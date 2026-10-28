@@ -1,0 +1,142 @@
+match_id,date,season,venue,batting_team,bowling_team,runs_10,wkts_10,final_runs,model,lo,hi,commentator,learned_ratio,median_total
+1473438,2025-03-22,2025,Eden Gardens,Kolkata Knight Riders,Royal Challengers Bengaluru,107,2,174,210.45,180.26,249.14,214,236.78,165.0
+1473439,2025-03-23,2025,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Rajasthan Royals,135,2,286,241.5,211.31,280.19,270,298.74,165.0
+1473440,2025-03-23,2025,MA Chidambaram Stadium,Mumbai Indians,Chennai Super Kings,82,3,155,177.0,146.81,215.69,164,181.45,165.0
+1473441,2025-03-24,2025,Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium,Lucknow Super Giants,Delhi Capitals,117,1,209,227.26,197.07,265.95,234,258.91,165.0
+1473442,2025-03-25,2025,Narendra Modi Stadium,Punjab Kings,Gujarat Titans,104,2,243,207.12,176.93,245.81,208,230.14,165.0
+1473443,2025-03-26,2025,Barsapara Cricket Stadium,Rajasthan Royals,Kolkata Knight Riders,76,4,151,164.62,134.43,203.31,152,168.18,165.0
+1473444,2025-03-27,2025,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Lucknow Super Giants,96,3,190,192.52,162.33,231.21,192,212.44,165.0
+1473445,2025-03-28,2025,MA Chidambaram Stadium,Royal Challengers Bengaluru,Chennai Super Kings,93,2,196,194.92,164.73,233.61,186,205.8,165.0
+1473446,2025-03-29,2025,Narendra Modi Stadium,Gujarat Titans,Mumbai Indians,92,1,196,199.54,169.35,238.23,184,203.58,165.0
+1473447,2025-03-30,2025,Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium,Sunrisers Hyderabad,Delhi Capitals,105,4,163,196.78,166.59,235.47,210,232.35,165.0
+1473448,2025-03-30,2025,Barsapara Cricket Stadium,Rajasthan Royals,Chennai Super Kings,99,2,182,201.57,171.38,240.26,198,219.07,165.0
+1473449,2025-03-31,2025,Wankhede Stadium,Kolkata Knight Riders,Mumbai Indians,69,5,116,151.13,120.94,189.82,138,152.69,165.0
+1473450,2025-04-01,2025,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Punjab Kings,76,3,171,170.34,140.15,209.03,152,168.18,165.0
+1473451,2025-04-02,2025,M Chinnaswamy Stadium,Royal Challengers Bengaluru,Gujarat Titans,73,4,169,161.29,131.1,199.98,146,161.54,165.0
+1473452,2025-04-03,2025,Eden Gardens,Kolkata Knight Riders,Sunrisers Hyderabad,84,2,200,184.94,154.75,223.63,168,185.88,165.0
+1473453,2025-04-04,2025,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Mumbai Indians,100,2,203,202.68,172.49,241.37,200,221.29,165.0
+1473454,2025-04-05,2025,MA Chidambaram Stadium,Delhi Capitals,Chennai Super Kings,82,2,183,182.72,152.53,221.41,164,181.45,165.0
+1473455,2025-04-05,2025,Maharaja Yadavindra Singh International Cricket Stadium,Rajasthan Royals,Punjab Kings,85,0,205,197.5,167.31,236.19,170,188.09,165.0
+1473457,2025-04-06,2025,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Gujarat Titans,64,3,152,157.04,126.85,195.73,128,141.62,165.0
+1473458,2025-04-07,2025,Wankhede Stadium,Royal Challengers Bengaluru,Mumbai Indians,100,2,221,202.68,172.49,241.37,200,221.29,165.0
+1473456,2025-04-08,2025,Eden Gardens,Lucknow Super Giants,Kolkata Knight Riders,95,0,238,208.59,178.4,247.28,190,210.22,165.0
+1473459,2025-04-08,2025,Maharaja Yadavindra Singh International Cricket Stadium,Punjab Kings,Chennai Super Kings,94,5,219,178.86,148.67,217.55,188,208.01,165.0
+1473460,2025-04-09,2025,Narendra Modi Stadium,Gujarat Titans,Rajasthan Royals,94,2,217,196.03,165.84,234.72,188,208.01,165.0
+1473461,2025-04-10,2025,M Chinnaswamy Stadium,Royal Challengers Bengaluru,Delhi Capitals,91,4,163,181.25,151.06,219.94,182,201.37,165.0
+1473462,2025-04-11,2025,MA Chidambaram Stadium,Chennai Super Kings,Kolkata Knight Riders,61,3,103,153.71,123.52,192.4,122,134.98,165.0
+1473463,2025-04-12,2025,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Gujarat Titans,Lucknow Super Giants,103,0,180,217.46,187.27,256.15,206,227.93,165.0
+1473464,2025-04-12,2025,Rajiv Gandhi International Stadium,Punjab Kings,Sunrisers Hyderabad,120,2,245,224.86,194.67,263.55,240,265.54,165.0
+1473465,2025-04-13,2025,Sawai Mansingh Stadium,Rajasthan Royals,Royal Challengers Bengaluru,77,1,173,182.9,152.71,221.59,154,170.39,165.0
+1473466,2025-04-13,2025,Arun Jaitley Stadium,Mumbai Indians,Delhi Capitals,94,2,205,196.03,165.84,234.72,188,208.01,165.0
+1473467,2025-04-14,2025,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Chennai Super Kings,78,3,166,172.56,142.37,211.25,156,172.6,165.0
+1473468,2025-04-15,2025,Maharaja Yadavindra Singh International Cricket Stadium,Punjab Kings,Kolkata Knight Riders,80,6,111,157.61,127.42,196.3,160,177.03,165.0
+1473469,2025-04-16,2025,Arun Jaitley Stadium,Delhi Capitals,Rajasthan Royals,76,2,188,176.07,145.88,214.76,152,168.18,165.0
+1473470,2025-04-17,2025,Wankhede Stadium,Sunrisers Hyderabad,Mumbai Indians,75,2,162,174.96,144.77,213.65,150,165.96,165.0
+1473472,2025-04-19,2025,Narendra Modi Stadium,Delhi Capitals,Gujarat Titans,105,3,203,202.5,172.31,241.19,210,232.35,165.0
+1473473,2025-04-19,2025,Sawai Mansingh Stadium,Lucknow Super Giants,Rajasthan Royals,76,3,180,170.34,140.15,209.03,152,168.18,165.0
+1473474,2025-04-20,2025,Maharaja Yadavindra Singh International Cricket Stadium,Punjab Kings,Royal Challengers Bengaluru,79,4,157,167.95,137.76,206.64,158,174.82,165.0
+1473475,2025-04-20,2025,Wankhede Stadium,Chennai Super Kings,Mumbai Indians,70,3,176,163.69,133.5,202.38,140,154.9,165.0
+1473476,2025-04-21,2025,Eden Gardens,Gujarat Titans,Kolkata Knight Riders,89,0,198,201.93,171.74,240.62,178,196.94,165.0
+1473477,2025-04-22,2025,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Delhi Capitals,87,1,159,193.99,163.8,232.68,174,192.52,165.0
+1473478,2025-04-23,2025,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Mumbai Indians,52,5,143,132.28,102.09,170.97,104,115.07,165.0
+1473479,2025-04-24,2025,M Chinnaswamy Stadium,Royal Challengers Bengaluru,Rajasthan Royals,83,1,205,189.56,159.37,228.25,166,183.67,165.0
+1473480,2025-04-25,2025,MA Chidambaram Stadium,Chennai Super Kings,Sunrisers Hyderabad,76,4,154,164.62,134.43,203.31,152,168.18,165.0
+1473482,2025-04-27,2025,Wankhede Stadium,Mumbai Indians,Lucknow Super Giants,105,2,215,208.23,178.04,246.92,210,232.35,165.0
+1473483,2025-04-27,2025,Arun Jaitley Stadium,Delhi Capitals,Royal Challengers Bengaluru,72,3,162,165.91,135.72,204.6,144,159.33,165.0
+1473484,2025-04-28,2025,Sawai Mansingh Stadium,Gujarat Titans,Rajasthan Royals,92,0,209,205.26,175.07,243.95,184,203.58,165.0
+1473485,2025-04-29,2025,Arun Jaitley Stadium,Kolkata Knight Riders,Delhi Capitals,117,4,204,210.09,179.9,248.78,234,258.91,165.0
+1473486,2025-04-30,2025,MA Chidambaram Stadium,Chennai Super Kings,Punjab Kings,89,3,190,184.76,154.57,223.45,178,196.94,165.0
+1473487,2025-05-01,2025,Sawai Mansingh Stadium,Mumbai Indians,Rajasthan Royals,99,0,217,213.02,182.83,251.71,198,219.07,165.0
+1473488,2025-05-02,2025,Narendra Modi Stadium,Gujarat Titans,Sunrisers Hyderabad,120,1,224,230.59,200.4,269.28,240,265.54,165.0
+1473489,2025-05-03,2025,M Chinnaswamy Stadium,Royal Challengers Bengaluru,Chennai Super Kings,97,1,213,205.08,174.89,243.77,194,214.65,165.0
+1473490,2025-05-04,2025,Eden Gardens,Kolkata Knight Riders,Rajasthan Royals,86,2,206,187.16,156.97,225.85,172,190.31,165.0
+1473491,2025-05-04,2025,Himachal Pradesh Cricket Association Stadium,Punjab Kings,Lucknow Super Giants,100,2,236,202.68,172.49,241.37,200,221.29,165.0
+1473493,2025-05-06,2025,Wankhede Stadium,Mumbai Indians,Gujarat Titans,89,2,155,190.49,160.3,229.18,178,196.94,165.0
+1473494,2025-05-07,2025,Eden Gardens,Kolkata Knight Riders,Chennai Super Kings,87,3,179,182.54,152.35,221.23,174,192.52,165.0
+1473497,2025-05-18,2025,Sawai Mansingh Stadium,Punjab Kings,Rajasthan Royals,97,3,219,193.63,163.44,232.32,194,214.65,165.0
+1473498,2025-05-18,2025,Arun Jaitley Stadium,Delhi Capitals,Gujarat Titans,81,1,199,187.34,157.15,226.03,162,179.24,165.0
+1473499,2025-05-19,2025,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Sunrisers Hyderabad,108,0,205,223.0,192.81,261.69,216,238.99,165.0
+1473500,2025-05-20,2025,Arun Jaitley Stadium,Chennai Super Kings,Rajasthan Royals,102,5,187,187.73,157.54,226.42,204,225.71,165.0
+1473501,2025-05-21,2025,Wankhede Stadium,Mumbai Indians,Delhi Capitals,80,3,180,174.78,144.59,213.47,160,177.03,165.0
+1473502,2025-05-22,2025,Narendra Modi Stadium,Lucknow Super Giants,Gujarat Titans,97,1,235,205.08,174.89,243.77,194,214.65,165.0
+1473503,2025-05-23,2025,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Sunrisers Hyderabad,Royal Challengers Bengaluru,113,3,231,211.38,181.19,250.07,226,250.05,165.0
+1485779,2025-05-24,2025,Sawai Mansingh Stadium,Punjab Kings,Delhi Capitals,97,3,206,193.63,163.44,232.32,194,214.65,165.0
+1473504,2025-05-25,2025,Narendra Modi Stadium,Chennai Super Kings,Gujarat Titans,115,2,230,219.32,189.13,258.01,230,254.48,165.0
+1473505,2025-05-25,2025,Arun Jaitley Stadium,Sunrisers Hyderabad,Kolkata Knight Riders,139,1,278,251.66,221.47,290.35,278,307.59,165.0
+1473506,2025-05-26,2025,Sawai Mansingh Stadium,Mumbai Indians,Punjab Kings,83,2,184,183.83,153.64,222.52,166,183.67,165.0
+1473507,2025-05-27,2025,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Royal Challengers Bengaluru,100,1,227,208.41,178.22,247.1,200,221.29,165.0
+1473508,2025-05-29,2025,Maharaja Yadavindra Singh International Cricket Stadium,Punjab Kings,Royal Challengers Bengaluru,71,7,101,141.9,111.71,180.59,142,157.11,165.0
+1473509,2025-05-30,2025,Maharaja Yadavindra Singh International Cricket Stadium,Mumbai Indians,Gujarat Titans,113,1,228,222.83,192.64,261.52,226,250.05,165.0
+1473510,2025-06-01,2025,Narendra Modi Stadium,Mumbai Indians,Punjab Kings,102,2,203,204.9,174.71,243.59,204,225.71,165.0
+1473511,2025-06-03,2025,Narendra Modi Stadium,Royal Challengers Bengaluru,Punjab Kings,87,2,190,188.27,158.08,226.96,174,192.52,165.0
+1527674,2026-03-28,2026,M Chinnaswamy Stadium,Sunrisers Hyderabad,Royal Challengers Bengaluru,87,3,201,182.54,152.35,221.23,174,192.52,165.0
+1527675,2026-03-29,2026,Wankhede Stadium,Kolkata Knight Riders,Mumbai Indians,120,2,220,224.86,194.67,263.55,240,265.54,165.0
+1527676,2026-03-30,2026,Barsapara Cricket Stadium,Chennai Super Kings,Rajasthan Royals,70,6,127,146.52,116.33,185.21,140,154.9,165.0
+1527677,2026-03-31,2026,Maharaja Yadavindra Singh International Cricket Stadium,Gujarat Titans,Punjab Kings,84,2,162,184.94,154.75,223.63,168,185.88,165.0
+1527678,2026-04-01,2026,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Delhi Capitals,80,5,141,163.33,133.14,202.02,160,177.03,165.0
+1527679,2026-04-02,2026,Eden Gardens,Sunrisers Hyderabad,Kolkata Knight Riders,123,4,226,216.74,186.55,255.43,246,272.18,165.0
+1527680,2026-04-03,2026,MA Chidambaram Stadium,Chennai Super Kings,Punjab Kings,101,1,209,209.52,179.33,248.21,202,223.5,165.0
+1527681,2026-04-04,2026,Arun Jaitley Stadium,Mumbai Indians,Delhi Capitals,73,3,162,167.02,136.83,205.71,146,161.54,165.0
+1527682,2026-04-04,2026,Narendra Modi Stadium,Rajasthan Royals,Gujarat Titans,97,1,210,205.08,174.89,243.77,194,214.65,165.0
+1527683,2026-04-05,2026,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Lucknow Super Giants,35,4,156,119.15,88.96,157.84,70,77.45,165.0
+1527684,2026-04-05,2026,M Chinnaswamy Stadium,Royal Challengers Bengaluru,Chennai Super Kings,91,1,250,198.43,168.24,237.12,182,201.37,165.0
+1527687,2026-04-08,2026,Arun Jaitley Stadium,Gujarat Titans,Delhi Capitals,101,2,210,203.79,173.6,242.48,202,223.5,165.0
+1527688,2026-04-09,2026,Eden Gardens,Kolkata Knight Riders,Lucknow Super Giants,98,1,181,206.19,176.0,244.88,196,216.86,165.0
+1527689,2026-04-10,2026,Barsapara Cricket Stadium,Royal Challengers Bengaluru,Rajasthan Royals,89,5,201,173.31,143.12,212.0,178,196.94,165.0
+1527690,2026-04-11,2026,Maharaja Yadavindra Singh International Cricket Stadium,Sunrisers Hyderabad,Punjab Kings,132,2,219,238.17,207.98,276.86,264,292.1,165.0
+1527691,2026-04-11,2026,MA Chidambaram Stadium,Chennai Super Kings,Delhi Capitals,88,1,212,195.1,164.91,233.79,176,194.73,165.0
+1527692,2026-04-12,2026,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Gujarat Titans,80,4,164,169.05,138.86,207.74,160,177.03,165.0
+1527693,2026-04-12,2026,Wankhede Stadium,Royal Challengers Bengaluru,Mumbai Indians,115,0,240,230.77,200.58,269.46,230,254.48,165.0
+1529264,2026-04-13,2026,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Rajasthan Royals,89,2,216,190.49,160.3,229.18,178,196.94,165.0
+1529265,2026-04-14,2026,MA Chidambaram Stadium,Chennai Super Kings,Kolkata Knight Riders,102,2,192,204.9,174.71,243.59,204,225.71,165.0
+1529266,2026-04-15,2026,M Chinnaswamy Stadium,Lucknow Super Giants,Royal Challengers Bengaluru,71,3,146,164.8,134.61,203.49,142,157.11,165.0
+1529267,2026-04-16,2026,Wankhede Stadium,Mumbai Indians,Punjab Kings,97,2,195,199.36,169.17,238.05,194,214.65,165.0
+1529268,2026-04-17,2026,Narendra Modi Stadium,Kolkata Knight Riders,Gujarat Titans,80,3,180,174.78,144.59,213.47,160,177.03,165.0
+1529269,2026-04-18,2026,M Chinnaswamy Stadium,Royal Challengers Bengaluru,Delhi Capitals,99,2,175,201.57,171.38,240.26,198,219.07,165.0
+1529270,2026-04-18,2026,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Chennai Super Kings,112,3,194,210.27,180.08,248.96,224,247.84,165.0
+1529271,2026-04-19,2026,Eden Gardens,Rajasthan Royals,Kolkata Knight Riders,95,1,155,202.86,172.67,241.55,190,210.22,165.0
+1529272,2026-04-19,2026,Maharaja Yadavindra Singh International Cricket Stadium,Punjab Kings,Lucknow Super Giants,110,1,254,219.5,189.31,258.19,220,243.42,165.0
+1529273,2026-04-20,2026,Narendra Modi Stadium,Mumbai Indians,Gujarat Titans,75,3,199,169.23,139.04,207.92,150,165.96,165.0
+1529274,2026-04-21,2026,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Delhi Capitals,104,1,242,212.84,182.65,251.53,208,230.14,165.0
+1529275,2026-04-22,2026,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Rajasthan Royals,Lucknow Super Giants,76,4,159,164.62,134.43,203.31,152,168.18,165.0
+1529276,2026-04-23,2026,Wankhede Stadium,Chennai Super Kings,Mumbai Indians,111,3,207,209.16,178.97,247.85,222,245.63,165.0
+1529277,2026-04-24,2026,M Chinnaswamy Stadium,Gujarat Titans,Royal Challengers Bengaluru,104,0,205,218.57,188.38,257.26,208,230.14,165.0
+1529278,2026-04-25,2026,Arun Jaitley Stadium,Delhi Capitals,Punjab Kings,102,1,264,210.63,180.44,249.32,204,225.71,165.0
+1529279,2026-04-25,2026,Sawai Mansingh Stadium,Rajasthan Royals,Sunrisers Hyderabad,112,1,228,221.72,191.53,260.41,224,247.84,165.0
+1529280,2026-04-26,2026,MA Chidambaram Stadium,Chennai Super Kings,Gujarat Titans,43,4,158,128.02,97.83,166.71,86,95.15,165.0
+1529281,2026-04-26,2026,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Kolkata Knight Riders,Lucknow Super Giants,64,4,155,151.31,121.12,190.0,128,141.62,165.0
+1529282,2026-04-27,2026,Arun Jaitley Stadium,Delhi Capitals,Royal Challengers Bengaluru,46,7,75,114.18,83.99,152.87,92,101.79,165.0
+1529283,2026-04-28,2026,Maharaja Yadavindra Singh International Cricket Stadium,Punjab Kings,Rajasthan Royals,107,2,222,210.45,180.26,249.14,214,236.78,165.0
+1529284,2026-04-29,2026,Wankhede Stadium,Mumbai Indians,Sunrisers Hyderabad,124,2,243,229.3,199.11,267.99,248,274.4,165.0
+1529285,2026-04-30,2026,Narendra Modi Stadium,Royal Challengers Bengaluru,Gujarat Titans,91,5,155,175.53,145.34,214.22,182,201.37,165.0
+1529286,2026-05-01,2026,Sawai Mansingh Stadium,Rajasthan Royals,Delhi Capitals,91,2,225,192.7,162.51,231.39,182,201.37,165.0
+1529287,2026-05-02,2026,MA Chidambaram Stadium,Mumbai Indians,Chennai Super Kings,90,2,159,191.59,161.4,230.28,180,199.16,165.0
+1529288,2026-05-03,2026,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Kolkata Knight Riders,107,2,165,210.45,180.26,249.14,214,236.78,165.0
+1529289,2026-05-03,2026,Narendra Modi Stadium,Punjab Kings,Gujarat Titans,51,5,163,131.17,100.98,169.86,102,112.86,165.0
+1529290,2026-05-04,2026,Wankhede Stadium,Lucknow Super Giants,Mumbai Indians,141,3,228,242.43,212.24,281.12,282,312.01,165.0
+1529291,2026-05-05,2026,Arun Jaitley Stadium,Delhi Capitals,Chennai Super Kings,62,4,155,149.09,118.9,187.78,124,137.2,165.0
+1529292,2026-05-06,2026,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Punjab Kings,118,2,235,222.65,192.46,261.34,236,261.12,165.0
+1529294,2026-05-08,2026,Arun Jaitley Stadium,Delhi Capitals,Kolkata Knight Riders,80,3,142,174.78,144.59,213.47,160,177.03,165.0
+1529295,2026-05-09,2026,Sawai Mansingh Stadium,Gujarat Titans,Rajasthan Royals,114,0,229,229.66,199.47,268.35,228,252.27,165.0
+1529296,2026-05-10,2026,MA Chidambaram Stadium,Lucknow Super Giants,Chennai Super Kings,117,4,203,210.09,179.9,248.78,234,258.91,165.0
+1529297,2026-05-10,2026,Shaheed Veer Narayan Singh International Stadium,Mumbai Indians,Royal Challengers Bengaluru,82,3,166,177.0,146.81,215.69,164,181.45,165.0
+1529298,2026-05-11,2026,Himachal Pradesh Cricket Association Stadium,Punjab Kings,Delhi Capitals,107,2,210,210.45,180.26,249.14,214,236.78,165.0
+1529299,2026-05-12,2026,Narendra Modi Stadium,Gujarat Titans,Sunrisers Hyderabad,68,3,168,161.47,131.28,200.16,136,150.47,165.0
+1529300,2026-05-13,2026,Shaheed Veer Narayan Singh International Stadium,Kolkata Knight Riders,Royal Challengers Bengaluru,86,2,192,187.16,156.97,225.85,172,190.31,165.0
+1529301,2026-05-14,2026,Himachal Pradesh Cricket Association Stadium,Punjab Kings,Mumbai Indians,89,1,200,196.21,166.02,234.9,178,196.94,165.0
+1529302,2026-05-15,2026,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Chennai Super Kings,Lucknow Super Giants,71,3,187,164.8,134.61,203.49,142,157.11,165.0
+1529303,2026-05-16,2026,Eden Gardens,Kolkata Knight Riders,Gujarat Titans,116,1,247,226.15,195.96,264.84,232,256.69,165.0
+1529304,2026-05-17,2026,Himachal Pradesh Cricket Association Stadium,Royal Challengers Bengaluru,Punjab Kings,101,2,222,203.79,173.6,242.48,202,223.5,165.0
+1529305,2026-05-17,2026,Arun Jaitley Stadium,Rajasthan Royals,Delhi Capitals,104,2,193,207.12,176.93,245.81,208,230.14,165.0
+1529306,2026-05-18,2026,MA Chidambaram Stadium,Chennai Super Kings,Sunrisers Hyderabad,91,3,180,186.98,156.79,225.67,182,201.37,165.0
+1529307,2026-05-19,2026,Sawai Mansingh Stadium,Lucknow Super Giants,Rajasthan Royals,127,1,220,238.35,208.16,277.04,254,281.03,165.0
+1529308,2026-05-20,2026,Eden Gardens,Mumbai Indians,Kolkata Knight Riders,64,4,147,151.31,121.12,190.0,128,141.62,165.0
+1529309,2026-05-21,2026,Narendra Modi Stadium,Gujarat Titans,Chennai Super Kings,111,0,229,226.33,196.14,265.02,222,245.63,165.0
+1529310,2026-05-22,2026,Rajiv Gandhi International Stadium,Sunrisers Hyderabad,Royal Challengers Bengaluru,116,2,255,220.43,190.24,259.12,232,256.69,165.0
+1529311,2026-05-23,2026,Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium,Lucknow Super Giants,Punjab Kings,100,3,196,196.96,166.77,235.65,200,221.29,165.0
+1529312,2026-05-24,2026,Wankhede Stadium,Rajasthan Royals,Mumbai Indians,94,3,205,190.31,160.12,229.0,188,208.01,165.0
+1529313,2026-05-24,2026,Eden Gardens,Delhi Capitals,Kolkata Knight Riders,88,2,203,189.38,159.19,228.07,176,194.73,165.0
+1535462,2026-05-26,2026,Himachal Pradesh Cricket Association Stadium,Royal Challengers Bengaluru,Gujarat Titans,99,3,254,195.85,165.66,234.54,198,219.07,165.0
+1535463,2026-05-27,2026,Maharaja Yadavindra Singh International Cricket Stadium,Rajasthan Royals,Sunrisers Hyderabad,136,1,243,248.33,218.14,287.02,272,300.95,165.0
+1535464,2026-05-29,2026,Maharaja Yadavindra Singh International Cricket Stadium,Rajasthan Royals,Gujarat Titans,103,3,214,200.29,170.1,238.98,206,227.93,165.0
+1535465,2026-05-31,2026,Narendra Modi Stadium,Gujarat Titans,Royal Challengers Bengaluru,63,3,155,155.93,125.74,194.62,126,139.41,165.0

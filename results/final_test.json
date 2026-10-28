@@ -1,0 +1,149 @@
+{
+ "test_seasons": [
+  2025,
+  2026
+ ],
+ "n": 141,
+ "frozen_model": {
+  "features": [
+   "runs_10",
+   "wkts_10",
+   "impact_era"
+  ],
+  "alpha": 100,
+  "weights": {
+   "target": "runs_to_come",
+   "fitted_on": "2008-2024",
+   "intercept": 94.470821,
+   "coefficients": {
+    "runs_10": 0.10897,
+    "wkts_10": -5.724692,
+    "impact_era": 8.765295
+   }
+  },
+  "interval": [
+   -30.19,
+   38.69
+  ]
+ },
+ "learned_ratio_k": 2.2129,
+ "median_total": 165.0,
+ "overall": {
+  "model": {
+   "MAE": 16.709,
+   "RMSE": 21.588,
+   "signed": -1.421,
+   "within15": 0.553
+  },
+  "commentator": {
+   "MAE": 22.248,
+   "RMSE": 27.509,
+   "signed": -8.007,
+   "within15": 0.348
+  },
+  "learned_ratio": {
+   "MAE": 24.089,
+   "RMSE": 30.687,
+   "signed": 11.765,
+   "within15": 0.397
+  },
+  "median_total": {
+   "MAE": 37.745,
+   "RMSE": 46.148,
+   "signed": -28.78,
+   "within15": 0.284
+  }
+ },
+ "per_season": {
+  "2025": {
+   "n": 70,
+   "model": {
+    "MAE": 15.831,
+    "RMSE": 20.671,
+    "signed": -0.116,
+    "within15": 0.571
+   },
+   "commentator": {
+    "MAE": 20.471,
+    "RMSE": 24.226,
+    "signed": -7.986,
+    "within15": 0.329
+   },
+   "learned_ratio": {
+    "MAE": 20.474,
+    "RMSE": 26.566,
+    "signed": 11.574,
+    "within15": 0.457
+   },
+   "median_total": {
+    "MAE": 36.271,
+    "RMSE": 44.514,
+    "signed": -26.757,
+    "within15": 0.3
+   }
+  },
+  "2026": {
+   "n": 71,
+   "model": {
+    "MAE": 17.576,
+    "RMSE": 22.456,
+    "signed": -2.707,
+    "within15": 0.535
+   },
+   "commentator": {
+    "MAE": 24.0,
+    "RMSE": 30.4,
+    "signed": -8.028,
+    "within15": 0.366
+   },
+   "learned_ratio": {
+    "MAE": 27.654,
+    "RMSE": 34.268,
+    "signed": 11.954,
+    "within15": 0.338
+   },
+   "median_total": {
+    "MAE": 39.197,
+    "RMSE": 47.705,
+    "signed": -30.775,
+    "within15": 0.268
+   }
+  }
+ },
+ "comparisons": {
+  "model_vs_commentator": {
+   "diff": -5.54,
+   "ci_low": -7.96,
+   "ci_high": -3.14
+  },
+  "model_vs_learned_ratio": {
+   "diff": -7.38,
+   "ci_low": -10.47,
+   "ci_high": -4.32
+  },
+  "model_vs_median_total": {
+   "diff": -21.04,
+   "ci_low": -25.42,
+   "ci_high": -16.73
+  }
+ },
+ "interval_coverage": {
+  "overall": 0.865,
+  "per_season": {
+   "2025": 0.843,
+   "2026": 0.887
+  }
+ },
+ "validation_for_reference": {
+  "MAE": 16.782,
+  "RMSE": 21.068,
+  "signed": -3.689,
+  "within15": 0.513,
+  "MAE_2019_22": 16.484,
+  "signed_2019_22": -1.75,
+  "MAE_2023_24": 17.309,
+  "signed_2023_24": -7.12,
+  "interval_coverage_2020_24": 0.872
+ },
+ "primary_claim_supported": true
+}
