@@ -554,7 +554,7 @@ function residualChart(rows) {
   }));
 }
 
-// ---------------------------------------------------------------- 240 balls to one row (preprocessing tab)
+// ---------------------------------------------------------------- ball-by-ball innings to one row (preprocessing tab)
 function ballsView(innings, explorer) {
   const sel = $("balls-sel");
   const date = (d) => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
