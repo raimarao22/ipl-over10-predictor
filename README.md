@@ -25,6 +25,7 @@ Website: https://raimarao22.github.io/ipl-over10-predictor/
 | 8 | `src/leakage_demo.py` | A deliberately leaky venue feature, for teaching (never used for a decision) | `results/leakage_demo.json` |
 | 9 | `src/export_web.py` | Writes the website's data files, from 2008-2024 only | `docs/data/*.json` |
 | 10 | `src/final_test.py` | **One-time** final test of the frozen model on 2025-2026 (run once on 29 Oct 2026; refuses to run twice) | `results/final_test.json`, `results/test_predictions.csv` |
+| 11 | `src/explore_after_test.py` | Exploratory checks after the final test (Impact Player flag per fold, learned ratio per fold, curved wicket effect); not used for any decision | `results/exploratory_after_test.json` |
 
 Scripts 7-9 only report; they never change the model. Script 10 is specified in advance (see its docstring
 and `DECISIONS.md`) and is run once.
@@ -38,7 +39,7 @@ Files in `results/` are committed so the repo records the claimed results.
 - Final test: 2025-2026 (141 innings), evaluated once by `src/final_test.py` after the model was frozen (run on 29 Oct 2026; results below).
 - Historical features always use matches from strictly earlier dates only.
 
-## Current selected model (validation only, 2025-2026 not used)
+## Selected model: validation results (2025-2026 not used for any choice)
 
 Selected by the rules in `src/train_validate.py`; full results in `results/`.
 

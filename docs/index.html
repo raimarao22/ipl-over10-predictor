@@ -376,7 +376,7 @@
     <h3>The rules to beat</h3>
     <div class="rules">
       <div class="rule comm"><p class="rule-name">Commentator rule</p><p class="rule-eq">score &times; 2</p><p>What broadcasters show at the halfway point.</p></div>
-      <div class="rule ratio"><p class="rule-name">Learned ratio</p><p class="rule-eq">score &times; 2.2</p><p>The average ratio of final total to over-10 score in earlier seasons. Fixes the doubling rule's habit of predicting too low.</p></div>
+      <div class="rule ratio"><p class="rule-name">Learned ratio</p><p class="rule-eq">score &times; 2.2</p><p>Total runs of all earlier innings divided by their total over-10 runs (2.22&ndash;2.23 for the validation seasons, 2.21 for the final test). Fixes the doubling rule's habit of predicting too low.</p></div>
       <div class="rule other"><p class="rule-name">Typical total</p><p class="rule-eq">median</p><p>The median total of earlier seasons, ignoring the innings entirely.</p></div>
     </div>
 
@@ -403,6 +403,7 @@
     <p><span class="term" tabindex="0" data-def="Linear regression with a penalty on large weights. The penalty keeps the model stable when features are related to each other.">Ridge regression</span>: a straight-line formula fitted to minimise squared error, with a small penalty that keeps the weights from growing too large. It is easy to interpret and small enough to run in your browser, which is how the calculator on the home tab works.</p>
     <div class="formula" id="formula">runs still to come = 94.5 + 0.11 &times; runs at over 10 &minus; 5.7 &times; wickets + 8.8 &times; Impact era</div>
     <p>Read it like this: start from 94.5 runs still to come, add 0.11 for every run already scored, take off about 6 for every wicket down, and add about 9 in the Impact Player era. For an average innings that comes to about 91 runs after over 10. The runs already scored only weakly predict how many are still to come.</p>
+    <p>The Impact Player indicator can only help once the model has seen that era. When predicting 2023, the training seasons (2008&ndash;2022) had no Impact Player matches, so the model gave the indicator no weight and predicted 2023 as if the rule did not exist. When predicting 2024, it had learned from 2023 (about +6 runs), which cut the 2024 error from 19.5 to 17.5 runs. The final model, trained on 2008&ndash;2024, adds about 9 runs.</p>
 
     <div class="chart-box short"><canvas id="chart-wickets" aria-label="Average runs scored in overs 11 to 20 by wickets lost at over 10"></canvas></div>
     <p class="caption">Average runs in overs 11&ndash;20 by wickets lost at over 10, development seasons. Teams with five or more down add about 40 fewer runs than teams with none.</p>
@@ -412,7 +413,8 @@
     <div class="chart-box"><canvas id="chart-resid" aria-label="Prediction errors against predicted total, 2019 to 2024"></canvas></div>
     <p class="caption" id="resid-caption"></p>
 
-    <p>We also tried gradient boosting and random forests, which can capture interactions between features. Gradient boosting was 0.26 runs better on average, but the 95% confidence interval for that gap (&minus;0.71 to +0.18) includes zero, so we kept the simpler ridge model.</p>
+    <p>We also tried gradient boosting and random forests, which can capture curved effects and interactions between features. Gradient boosting was 0.26 runs better on average, and better on 2023&ndash;2024 (16.7 against 17.3). To check whether that gap is real, we resampled the 396 validation innings 5,000 times and recomputed it each time: the middle 95% of those gaps ran from &minus;0.71 to +0.18 runs. That range includes zero, so the data is consistent with no real difference, and our rule, fixed in advance, was to switch only if the whole range was below zero. We kept the simpler ridge model.</p>
+    <p>What we did not try: the search over all 64 feature combinations used ridge only, and the tree models were tried only on the three selected features. A later check found gradient boosting with all nine features did worse (16.96), so more features did not help the trees either. We kept the list of models short on purpose: with about 400 validation innings, every extra model tried makes the best one look better by luck.</p>
   </section>
 
   <!-- ======================================================= EVALUATION -->
@@ -504,7 +506,7 @@
 
     <div class="pending" id="final-test">
       <h3>Final test on 2025&ndash;2026</h3>
-      <p>Not run yet. The model above is frozen; it will be tested once on the 141 innings from 2025 and 2026, and the results will appear here.</p>
+      <p>Run once on the 141 innings from 2025 and 2026: our model's error was 16.7 runs against 22.2 for doubling. Full results load here.</p>
     </div>
   </section>
 
@@ -541,7 +543,7 @@
     <ul class="limit-cards">
       <li><strong>Era shift</strong> Only two Impact Player seasons were available for training, and the model still underpredicts 2023&ndash;2024 by about 7 runs on average.</li>
       <li><strong>No player information</strong> The model does not know who is batting or who is left to bowl.</li>
-      <li><strong>Straight-line wicket effect</strong> The model takes off the same 5.7 runs for every wicket and cannot know an innings ends at 10 down. Most of the data is 0&ndash;5 wickets at over 10, so the predictor stops at 7 and flags 6&ndash;7 as rare.</li>
+      <li><strong>Straight-line wicket effect</strong> The model takes off the same 5.7 runs for every wicket, but later wickets cost far more: teams 0&ndash;1 down at over 10 add about 99 runs, five down about 63 and six down about 44. Treating wickets as categories looked slightly better in a check after the final test (16.68 against 16.78), but the 95% range of that gain (&minus;0.48 to +0.26) includes zero and the test data was already used, so the model was not changed. The predictor stops at 7 wickets and flags 6&ndash;7 as rare.</li>
       <li><strong>Modest gains beyond the score</strong> Everything we added on top of the over-10 score improved the error by about 0.4 runs, and that total is not statistically established. Only the era indicator&rsquo;s share of it is, and that gain is almost all in 2023&ndash;2024.</li>
       <li><strong>Slightly optimistic validation</strong> Choices were made on the same seasons we report. The one-time test (16.7 on 2025&ndash;2026, against 16.8 on validation) suggests this optimism was small.</li>
       <li><strong>Small test set</strong> 141 innings in 2025&ndash;2026, so the test is less precise than validation: the gain over doubling could be anywhere from about 3 to 8 runs, and the range coverage of 86.5% has a wide margin too.</li>
@@ -574,7 +576,7 @@
       <h2 class="lower-third">Reproduce our results</h2>
     </header>
     <ol class="steps">
-      <li><div>Clone the <a href="https://github.com/raimarao22/ipl-over10-predictor">repository</a> and install the libraries with <code>pip install -r requirements.txt</code> (pandas, NumPy, scikit-learn, Matplotlib).</div></li>
+      <li><div>Clone the <a href="https://github.com/raimarao22/ipl-over10-predictor">repository</a> and install the libraries with <code>pip install -r requirements.txt</code> (pandas, NumPy, scikit-learn).</div></li>
       <li><div>Download the IPL JSON zip from <a href="https://cricsheet.org/downloads/">Cricsheet</a> into <code>data/</code>. Our copy: built 7 October 2026, 1,243 matches, SHA-256 <code class="hash">6fe9142db9e139e4f77a5634ddc61c1c72a26a56bee2fe5affe5921867de04b3</code>. A newer download may differ.</div></li>
       <li><div>Run the scripts in <code>src/</code> from the repository root, in this order:
         <div class="table-wrap"><table>
@@ -590,6 +592,7 @@
             <tr><td><code>leakage_demo.py</code></td><td>The deliberate leakage example</td><td>16.73 vs 16.59</td></tr>
             <tr><td><code>export_web.py</code></td><td>Writes this website's data files</td><td><code>docs/data/</code></td></tr>
             <tr><td><code>final_test.py</code></td><td>One-time test of the frozen model on 2025&ndash;2026, fixed in advance; refuses a second run</td><td>MAE 16.7 vs 22.2 (x2)</td></tr>
+            <tr><td><code>explore_after_test.py</code></td><td>Exploratory checks after the final test; not used for any decision</td><td><code>exploratory_after_test.json</code></td></tr>
           </tbody>
         </table></div>
       </div></li>
