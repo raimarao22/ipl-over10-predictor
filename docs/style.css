@@ -735,3 +735,9 @@ input[type=range] { height: 26px; cursor: pointer; }
 .editorial p, .editorial ul { margin: 0; }
 .editorial ul { padding-left: 1.2rem; }
 .editorial li { margin: .3rem 0; }
+
+/* in-page links such as #references: land below the sticky header and briefly highlight the target */
+#references, .refs li { scroll-margin-top: 7rem; }
+@keyframes flash { from { background: var(--th); } to { background: transparent; } }
+.flash { animation: flash 1.6s ease-out; }
+@media (prefers-reduced-motion: reduce) { .flash { animation: none; } }
