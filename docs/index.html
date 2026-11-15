@@ -283,7 +283,7 @@
     <div>
     <h3>Scoring jumped from 2023</h3>
     <div class="chart-box"><canvas id="chart-seasons" aria-label="Average first-innings total and average score at over 10, by season, 2008 to 2024"></canvas></div>
-    <p class="caption">Development seasons only (2008&ndash;2024). Average totals rose from 163 in 2008&ndash;2022 to 187 in 2023&ndash;2024, the first two seasons of the Impact Player rule, which the IPL introduced from the 2023 season (<a href="#reproduce">reference 3</a>). The rise coincides with the rule; we do not claim the rule caused it.</p>
+    <p class="caption">Development seasons only (2008&ndash;2024). Average totals rose from 163 in 2008&ndash;2022 to 187 in 2023&ndash;2024, the first two seasons of the Impact Player rule, which the IPL introduced from the 2023 season (<a href="#ref-3">reference 3</a>). The rise coincides with the rule; we do not claim the rule caused it.</p>
     </div>
     </div>
 
@@ -663,13 +663,13 @@
     </ol>
     <p>Split: development seasons 2008&ndash;2024, excluding the first 11 innings of 2008 (warm-up rows with too little history for the venue and league features, used only as history); walk-forward validation on 2019&ndash;2024; final test 2025&ndash;2026, run once. Random seed 0. Every modelling decision and its evidence is logged in <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/DECISIONS.md"><code>DECISIONS.md</code></a>; the full setup and run steps are in the <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/README.md">README</a>.</p>
 
-    <h3>References</h3>
+    <h3 id="references">References</h3>
     <ol class="refs">
-      <li>Cricsheet. IPL ball-by-ball data, JSON format. <a href="https://cricsheet.org/downloads/">cricsheet.org/downloads</a>. Licensed CC-BY-4.0. Downloaded 24 October 2026.</li>
-      <li>A. E. Hoerl and R. W. Kennard (1970). Ridge regression: biased estimation for nonorthogonal problems. <em>Technometrics</em> 12(1), 55&ndash;67.</li>
-      <li>Cricket.com (2 December 2022). <a href="https://www.cricket.com/news/ipl-confirms-impact-player-rule-for-2023-season-1669969573234">IPL confirms Impact Player rule for 2023 season</a>. Source for the Impact Player rule starting in 2023.</li>
-      <li>B. Efron (1979). Bootstrap methods: another look at the jackknife. <em>The Annals of Statistics</em> 7(1), 1&ndash;26. Basis of our confidence intervals.</li>
-      <li>F. Pedregosa et al. (2011). Scikit-learn: machine learning in Python. <em>Journal of Machine Learning Research</em> 12, 2825&ndash;2830.</li>
+      <li id="ref-1">Cricsheet. IPL ball-by-ball data, JSON format. <a href="https://cricsheet.org/downloads/">cricsheet.org/downloads</a>. Licensed CC-BY-4.0. Downloaded 24 October 2026.</li>
+      <li id="ref-2">A. E. Hoerl and R. W. Kennard (1970). Ridge regression: biased estimation for nonorthogonal problems. <em>Technometrics</em> 12(1), 55&ndash;67.</li>
+      <li id="ref-3">Cricket.com (2 December 2022). <a href="https://www.cricket.com/news/ipl-confirms-impact-player-rule-for-2023-season-1669969573234">IPL confirms Impact Player rule for 2023 season</a>. Source for the Impact Player rule starting in 2023.</li>
+      <li id="ref-4">B. Efron (1979). Bootstrap methods: another look at the jackknife. <em>The Annals of Statistics</em> 7(1), 1&ndash;26. Basis of our confidence intervals.</li>
+      <li id="ref-5">F. Pedregosa et al. (2011). Scikit-learn: machine learning in Python. <em>Journal of Machine Learning Research</em> 12, 2825&ndash;2830.</li>
     </ol>
     <h3>Tools and libraries</h3>
     <p>Python with pandas, NumPy and scikit-learn for the analysis. The website is plain HTML, CSS and JavaScript, with charts by <a href="https://www.chartjs.org/">Chart.js</a> 4.4.1 (MIT licence) and the fonts Barlow, Barlow Condensed and Big Shoulders Display from <a href="https://fonts.google.com/">Google Fonts</a> (SIL Open Font Licence). Hosted on GitHub Pages.</p>
@@ -691,7 +691,7 @@
   <div class="wrap">
   <p class="foot-title">Beat the Commentator</p>
   <p>Raima Rao and Rishit Garg. ES 335 Machine Learning, IIT Gandhinagar, 2026.</p>
-  <p>Source code on <a href="https://github.com/raimarao22/ipl-over10-predictor">GitHub</a>. Data from <a href="https://cricsheet.org">Cricsheet</a>, CC-BY-4.0. <a href="#reproduce">References, tools and AI use</a>.</p>
+  <p>Source code on <a href="https://github.com/raimarao22/ipl-over10-predictor">GitHub</a>. Data from <a href="https://cricsheet.org">Cricsheet</a>, CC-BY-4.0. <a href="#references">References, tools and AI use</a>.</p>
   </div>
 </footer>
 

@@ -116,8 +116,13 @@ const tabDone = new Set();
 let DATA = null;
 
 function showTab() {
-  let id = location.hash.slice(1);
-  if (!TABS.includes(id)) id = "home";
+  let id = location.hash.slice(1), target = null;
+  if (!TABS.includes(id)) {
+    // a link to a heading or item inside a tab (e.g. #references): open that tab, then scroll to it
+    const el = id && document.getElementById(id);
+    const tab = el && el.closest(".tab");
+    if (tab) { target = el; id = tab.id; } else id = "home";
+  }
   TABS.forEach((t) => { $(t).hidden = t !== id; });
   document.querySelectorAll(".tabs a").forEach((a) => {
     if (a.getAttribute("href") === "#" + id) a.setAttribute("aria-current", "page");
@@ -141,9 +146,18 @@ function showTab() {
   if (i < TABS.length - 1) { next.href = "#" + TABS[i + 1]; next.textContent = "Next: " + label(TABS[i + 1]); next.removeAttribute("aria-disabled"); }
   else next.setAttribute("aria-disabled", "true");
   if (DATA && tabInit[id] && !tabDone.has(id)) { tabDone.add(id); tabInit[id](DATA); }
-  window.scrollTo(0, 0);
+  if (target) requestAnimationFrame(() => {
+    target.scrollIntoView({ block: "start" });
+    target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash");
+  });
+  else window.scrollTo(0, 0);
 }
 window.addEventListener("hashchange", showTab);
+// clicking an in-page link whose target is already in the URL does not fire hashchange; jump anyway
+document.addEventListener("click", (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (a && a.getAttribute("href") === location.hash && !TABS.includes(location.hash.slice(1))) showTab();
+});
 // skip link: move focus to the content without changing the tab in the URL
 document.querySelector(".skip").addEventListener("click", (e) => { e.preventDefault(); $("main-content").focus(); });
 
