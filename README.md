@@ -23,11 +23,12 @@ Website: https://raimarao22.github.io/ipl-over10-predictor/
 | 6 | `src/train_validate.py` | Model and feature selection on walk-forward folds; frozen weights | `results/validation_results.csv`, `results/oos_predictions.csv`, `results/chosen_model.json` |
 | 7 | `src/ablation_all.py` | All 64 feature combinations, plus where the gain comes from (checked after the model was chosen; reporting only) | `results/ablation_all.csv`, `results/feature_gains.json` |
 | 8 | `src/leakage_demo.py` | A deliberately leaky venue feature, for teaching (never used for a decision) | `results/leakage_demo.json` |
+| 8b | `src/make_splits.py` | Lists the role of every innings in the evaluation (warm-up, training only, validation fold, test); changes nothing else | `results/splits.csv` |
 | 9 | `src/export_web.py` | Writes the website's data files, from 2008-2024 only | `docs/data/*.json` |
 | 10 | `src/verify_final_test.py` | **Read-only check** of the published final test: rebuilds the 2025-2026 predictions from the frozen model and confirms they match the committed files. Do not run `src/final_test.py` again: it was the one-time test (run on 29 Oct 2026) and refuses a second run | Prints "Reproduced…"; writes nothing |
 | 11 | `src/explore_after_test.py` | Exploratory checks after the final test (Impact Player flag per fold, learned ratio per fold, curved wicket effect); not used for any decision | `results/exploratory_after_test.json` |
 
-Scripts 7-9 only report; they never change the model. The one-time test, `src/final_test.py`, was specified
+Scripts 7-9 (including 8b) only report; they never change the model. The one-time test, `src/final_test.py`, was specified
 in advance (see its docstring and `DECISIONS.md`) and run once; its outputs are committed. To check them,
 run `src/verify_final_test.py`, which recomputes the result without overwriting anything.
 
@@ -37,6 +38,10 @@ Files in `results/` are committed so the repo records the claimed results.
 ## Split
 
 - Development: 2008-2024. Walk-forward folds: each season 2019-2024 is predicted using only earlier seasons.
+- Innings: 1,070 development (11 warm-up rows used only as history, 663 training-only rows from 2008-2018,
+  396 validation rows from 2019-2024: 59, 60, 60, 74, 73, 70) and 141 test rows.
+- Validation rows are part of development: each is predicted once in its own fold and is training data for later folds.
+  `results/splits.csv` lists every innings with its role.
 - Final test: 2025-2026 (141 innings), evaluated once by `src/final_test.py` after the model was frozen (run on 29 Oct 2026; results below).
 - Historical features always use matches from strictly earlier dates only.
 
@@ -103,7 +108,21 @@ the JSON files in `docs/data/`, which `src/export_web.py` writes from the develo
 To preview it locally, run `python -m http.server 8000 --directory docs` and open http://localhost:8000
 (opening `index.html` directly will not load the data).
 
-## Data credit and AI use
+## AI use
 
-Data from Cricsheet (CC-BY-4.0). We used Claude for planning and code drafting;
-all results were run and checked by us.
+We used Claude for planning and code drafting; all results were run and checked by us.
+
+## References
+
+1. Cricsheet. IPL ball-by-ball data, JSON format. https://cricsheet.org/downloads/ (CC-BY-4.0). Downloaded 24 October 2026.
+2. A. E. Hoerl and R. W. Kennard (1970). Ridge regression: biased estimation for nonorthogonal problems. *Technometrics* 12(1), 55-67.
+3. Cricket.com (2 December 2022). IPL confirms Impact Player rule for 2023 season.
+   https://www.cricket.com/news/ipl-confirms-impact-player-rule-for-2023-season-1669969573234
+4. B. Efron (1979). Bootstrap methods: another look at the jackknife. *The Annals of Statistics* 7(1), 1-26.
+5. F. Pedregosa et al. (2011). Scikit-learn: machine learning in Python. *Journal of Machine Learning Research* 12, 2825-2830.
+
+## Tools and libraries
+
+- Analysis: Python, pandas, NumPy, scikit-learn.
+- Website: plain HTML, CSS and JavaScript; Chart.js 4.4.1 (MIT licence) for charts; fonts Barlow, Barlow Condensed
+  and Big Shoulders Display from Google Fonts (SIL Open Font Licence); hosted on GitHub Pages.

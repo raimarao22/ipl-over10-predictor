@@ -109,7 +109,7 @@
       <div class="hero-text wrap">
         <p class="kicker">ES 335 Machine Learning project</p>
         <h1>Halfway through an IPL innings, where will it finish?</h1>
-        <p class="hero-sub">We predict a first-innings total at the end of over 10 and test it against the TV commentator's rule of doubling the score.</p>
+        <p class="hero-sub">We predict a first-innings total at the end of over 10 and test it against the common rule of thumb of doubling the score.</p>
         <div class="hero-btns"><button type="button" class="btn primary big" id="to-predictor">Try the predictor</button>
         <button type="button" class="btn ghost big" id="to-game">Play: beat the model</button></div>
       </div>
@@ -248,7 +248,7 @@
     <header class="chapter">
       <h2 class="lower-third">The question</h2>
     </header>
-    <p class="lead">Halfway through a T20 innings, broadcasters often project the final score by doubling the current total. We ask whether a model can do better, and which information beyond the score actually helps.</p>
+    <p class="lead">Halfway through a T20 innings, a common rule of thumb projects the final score by doubling the current total; we call it the commentator rule. We ask whether a model can do better, and which information beyond the score actually helps.</p>
     <dl class="facts tiles">
       <div><dt>One row</dt><dd>One IPL first innings, frozen at the end of over 10</dd></div>
       <div><dt>Target</dt><dd>The final first-innings total, in runs</dd></div>
@@ -256,6 +256,14 @@
       <div><dt>Known at that moment</dt><dd>Every ball of overs 1&ndash;10, the venue, the season, and results of earlier matches</dd></div>
     </dl>
     <p><strong>What we do not claim.</strong> The model covers IPL men's first innings scheduled for 20 overs. It predicts; it does not show what causes scores. It is not a betting tool.</p>
+    <div class="editorial">
+      <h3>Why this question</h3>
+      <p>The halfway point is when viewers, commentators and teams first ask where an innings is heading, and doubling the score is the quick answer anyone can work out in their head. That makes it a fair baseline: if a model cannot beat a rule this simple, it is not worth using. The question is also well defined: one moment (the end of over 10), one number to predict, and ball-by-ball records for every IPL match since 2008, so every method can be compared on the same real innings.</p>
+    </div>
+    <div class="editorial">
+      <h3>What we expected</h3>
+      <p>Going in, we thought that wickets lost, recent momentum (runs in the last five and last two overs), the venue and the league's recent scoring level might each improve on the score alone, and we expected the jump in scoring from 2023 to make those seasons harder to predict. Rather than assume any of these helped, we fixed a rule before testing: keep a feature only if removing it worsens walk-forward error by at least 0.1 runs.</p>
+    </div>
   </section>
 
   <!-- ======================================================= DATA -->
@@ -275,7 +283,7 @@
     <div>
     <h3>Scoring jumped from 2023</h3>
     <div class="chart-box"><canvas id="chart-seasons" aria-label="Average first-innings total and average score at over 10, by season, 2008 to 2024"></canvas></div>
-    <p class="caption">Development seasons only (2008&ndash;2024). Average totals rose from 163 in 2008&ndash;2022 to 187 in 2023&ndash;2024, the first two seasons of the Impact Player rule. The rise coincides with the rule; we do not claim the rule caused it.</p>
+    <p class="caption">Development seasons only (2008&ndash;2024). Average totals rose from 163 in 2008&ndash;2022 to 187 in 2023&ndash;2024, the first two seasons of the Impact Player rule, which the IPL introduced from the 2023 season (<a href="#reproduce">reference 3</a>). The rise coincides with the rule; we do not claim the rule caused it.</p>
     </div>
     </div>
 
@@ -300,6 +308,7 @@
       <li>Cricsheet numbers overs from 0. An independent over-by-over recount of random innings matched our values exactly.</li>
       <li>Some seasons were played outside India: 2009 in South Africa, all of 2020 and parts of 2014 and 2021 in the UAE. The venue average we tested gives each ground its own history, so these seasons do not distort it (venue was not kept in the final model).</li>
     </ul>
+    <p class="src-links"><span>In the repository:</span> <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/data/README.md">data download and checksum</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/exclusions.json">exclusion counts</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/src/build_snapshots.py">snapshot code</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/src/check_snapshots.py">recount check</a></p>
   </section>
 
   <!-- ======================================================= PREPROCESSING -->
@@ -366,6 +375,7 @@
         <p id="leak-text"></p>
       </div>
     </div>
+    <p class="src-links"><span>In the repository:</span> <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/src/features.py">feature code</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/src/check_features.py">leakage checks</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/leakage_demo.json">leakage demo results</a></p>
   </section>
 
   <!-- ======================================================= METHODS -->
@@ -375,7 +385,7 @@
     </header>
     <h3>The rules to beat</h3>
     <div class="rules">
-      <div class="rule comm"><p class="rule-name">Commentator rule</p><p class="rule-eq">score &times; 2</p><p>What broadcasters show at the halfway point.</p></div>
+      <div class="rule comm"><p class="rule-name">Commentator rule</p><p class="rule-eq">score &times; 2</p><p>The common rule of thumb: double the score at the halfway point.</p></div>
       <div class="rule ratio"><p class="rule-name">Learned ratio</p><p class="rule-eq">score &times; 2.2</p><p>Total runs of all earlier innings divided by their total over-10 runs (2.22&ndash;2.23 for the validation seasons, 2.21 for the final test). Fixes the doubling rule's habit of predicting too low.</p></div>
       <div class="rule other"><p class="rule-name">Typical total</p><p class="rule-eq">median</p><p>The median total of earlier seasons, ignoring the innings entirely.</p></div>
     </div>
@@ -401,6 +411,7 @@
 
     <h3>Our model</h3>
     <p><span class="term" tabindex="0" data-def="Linear regression with a penalty on large weights. The penalty keeps the model stable when features are related to each other.">Ridge regression</span>: a straight-line formula fitted to minimise squared error, with a small penalty that keeps the weights from growing too large. It is easy to interpret and small enough to run in your browser, which is how the calculator on the home tab works.</p>
+    <p>The size of the penalty (alpha) was chosen by walk-forward validation on the full set of proposed features. We tried 0.1, 1, 10 and 100; 100 had the lowest error, but all four were within 0.1 runs of each other (16.82 to 16.91), and 100 was the largest value we tried, so this choice barely mattered.</p>
     <div class="formula" id="formula">runs still to come = 94.5 + 0.11 &times; runs at over 10 &minus; 5.7 &times; wickets + 8.8 &times; Impact era</div>
     <p>Read it like this: start from 94.5 runs still to come, add 0.11 for every run already scored, take off about 6 for every wicket down, and add about 9 in the Impact Player era. For an average innings that comes to about 91 runs after over 10. The runs already scored only weakly predict how many are still to come.</p>
     <p>The Impact Player indicator can only help once the model has seen that era. When predicting 2023, the training seasons (2008&ndash;2022) had no Impact Player matches, so the model gave the indicator no weight and predicted 2023 as if the rule did not exist. When predicting 2024, it had learned from 2023 (about +6 runs), which cut the 2024 error from 19.5 to 17.5 runs. The final model, trained on 2008&ndash;2024, adds about 9 runs.</p>
@@ -415,6 +426,24 @@
 
     <p>We also tried gradient boosting and random forests, which can capture curved effects and interactions between features. Gradient boosting was 0.26 runs better on average, and better on 2023&ndash;2024 (16.7 against 17.3). To check whether that gap is real, we resampled the 396 validation innings 5,000 times and recomputed it each time: the middle 95% of those gaps ran from &minus;0.71 to +0.18 runs. That range includes zero, so the data is consistent with no real difference, and our rule, fixed in advance, was to switch only if the whole range was below zero. We kept the simpler ridge model.</p>
     <p>What we did not try: the search over all 64 feature combinations used ridge only, and the tree models were tried only on the three selected features. A later check found gradient boosting with all nine features did worse (16.96), so more features did not help the trees either. We kept the list of models short on purpose: with about 400 validation innings, every extra model tried makes the best one look better by luck.</p>
+
+    <h3>Every method we compared</h3>
+    <div class="table-wrap"><table class="cmp-table">
+      <thead><tr><th scope="col">Method</th><th scope="col">Validation MAE</th><th scope="col">Signed error</th><th scope="col">Note</th></tr></thead>
+      <tbody>
+        <tr><td>Commentator rule (score &times; 2)</td><td>21.98</td><td>&minus;15.00</td><td>Predicts far too low</td></tr>
+        <tr><td>Learned ratio (score &times; k)</td><td>20.27</td><td>+2.95</td><td>Right level on average, but still forced through zero</td></tr>
+        <tr><td>Typical total (median)</td><td>26.70</td><td>&minus;10.79</td><td>Ignores the innings</td></tr>
+        <tr><td>Ridge, score only</td><td>17.21</td><td>&minus;3.07</td><td>Beats doubling by 4.77 runs (95% CI 3.35 to 6.08)</td></tr>
+        <tr class="ours"><td><strong>Ridge, selected (score, wickets, era)</strong></td><td><strong>16.78</strong></td><td>&minus;3.69</td><td>Our model</td></tr>
+        <tr><td>Gradient boosting*</td><td>16.52</td><td>&minus;3.54</td><td>0.26 better than ridge, 95% CI &minus;0.71 to +0.18: not established</td></tr>
+        <tr><td>Random forest*</td><td>17.24</td><td>&minus;4.47</td><td>Worse than ridge</td></tr>
+      </tbody>
+    </table></div>
+    <p class="caption">Walk-forward validation, 2019&ndash;2024 (396 innings). Lower MAE is better; signed error is prediction minus actual, so negative means too low.
+    *Best of the two settings we tried for each, chosen on these same validation seasons and using only our three features, so their numbers are slightly flattering.
+    We kept ridge because the boosting gain was not established by our pre-set rule and ridge is simpler and readable.</p>
+    <p class="src-links"><span>In the repository:</span> <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/src/train_validate.py">model selection code</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/validation_results.csv">all validation results</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/chosen_model.json">frozen model</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/DECISIONS.md">decision log</a></p>
   </section>
 
   <!-- ======================================================= EVALUATION -->
@@ -432,6 +461,19 @@
     <div class="wf" id="wf" aria-label="Walk-forward validation: each season from 2019 to 2024 is predicted from earlier seasons; 2025 and 2026 are the final test"></div>
     <div class="wf-key"><span class="k train">Training</span><span class="k val">Season being predicted</span><span class="k test">Final test, used once</span></div>
 
+    <h3>How the innings are split</h3>
+    <div class="table-wrap"><table class="split-table">
+      <thead><tr><th scope="col">Group</th><th scope="col">Seasons</th><th scope="col">Innings</th><th scope="col">Used for</th></tr></thead>
+      <tbody>
+        <tr><td>Development</td><td>2008&ndash;2024</td><td>1,070</td><td>All model choices, and fitting the final model (excluding the 11 warm-up rows)</td></tr>
+        <tr class="sub"><td>&nbsp;&nbsp;Warm-up rows</td><td>start of 2008</td><td>11</td><td>History for venue and league averages only, never training</td></tr>
+        <tr class="sub"><td>&nbsp;&nbsp;Training only</td><td>2008&ndash;2018</td><td>663</td><td>Training in every validation fold</td></tr>
+        <tr class="sub"><td>&nbsp;&nbsp;Validation</td><td>2019&ndash;2024</td><td>396</td><td>Each season predicted once (59, 60, 60, 74, 73, 70), then used as training for later seasons</td></tr>
+        <tr><td>Final test</td><td>2025&ndash;2026</td><td>141</td><td>One run of the frozen model, after all choices were made</td></tr>
+      </tbody>
+    </table></div>
+    <p class="caption">The validation innings are part of development, not a separate dataset: this is walk-forward validation, not one fixed train/validation split. The role of every innings is listed in <code>results/splits.csv</code>.</p>
+
     <h3>How we score predictions</h3>
     <ul class="grid-list">
       <li><strong>Average error (<span class="term" tabindex="0" data-def="Mean absolute error: the average number of runs between the prediction and the real total, ignoring whether it was too high or too low.">MAE</span>)</strong>How many runs off a prediction is, on average. Our main measure.</li>
@@ -439,6 +481,7 @@
       <li><strong><span class="term" tabindex="0" data-def="A bootstrap confidence interval: we resample the innings thousands of times and see how much the gap between two methods moves. If the 95% range excludes zero, the gap is very unlikely to be chance.">Confidence intervals</span></strong>We resample innings 5,000 times to check whether a gap between two methods could be chance.</li>
       <li><strong>90% range</strong>Built from the model's past errors; we check how often real totals land inside it.</li>
     </ul>
+    <p class="src-links"><span>In the repository:</span> <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/splits.csv">every innings and its role</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/src/make_splits.py">split code</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/src/train_validate.py">walk-forward code</a></p>
   </section>
 
   <!-- ======================================================= RESULTS -->
@@ -508,6 +551,7 @@
       <h3>Final test on 2025&ndash;2026</h3>
       <p>Run once on the 141 innings from 2025 and 2026: our model's error was 16.7 runs against 22.2 for doubling. Full results load here.</p>
     </div>
+    <p class="src-links"><span>In the repository:</span> <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/ablation_all.csv">all 64 feature combinations</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/feature_gains.json">where the gain comes from</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/oos_predictions.csv">validation predictions</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/final_test.json">final test results</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/test_predictions.csv">final test predictions</a>, <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/src/verify_final_test.py">final test check</a></p>
   </section>
 
   <!-- ======================================================= ERRORS -->
@@ -533,6 +577,7 @@
     <div class="table-wrap"><table id="ex-table"></table></div>
     <p class="caption" id="ex-count"></p>
     <p>The largest misses tend to be late collapses, which no method can see at over 10, and late explosions, which push totals well past every projection. The 90% range is lopsided for the same reason: big totals overshoot more often than small ones fall short.</p>
+    <p class="src-links"><span>In the repository:</span> <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/oos_predictions.csv">every validation prediction and its error</a></p>
   </section>
 
   <!-- ======================================================= LIMITATIONS -->
@@ -549,6 +594,15 @@
       <li><strong>Small test set</strong> 141 innings in 2025&ndash;2026, so the test is less precise than validation: the gain over doubling could be anywhere from about 3 to 8 runs, and the range coverage of 86.5% has a wide margin too.</li>
       <li><strong>Scope</strong> Rain-reduced matches and second innings are excluded, so results do not apply to them.</li>
     </ul>
+    <div class="editorial">
+      <h3>What would change our conclusion</h3>
+      <ul>
+        <li>If a more flexible model, such as gradient boosting, beat ridge on new seasons with a 95% interval entirely below zero, we would switch to it.</li>
+        <li>If the advantage over doubling shrank on future seasons until its interval included zero, for example because scoring patterns change again, our main claim would no longer hold.</li>
+        <li>If the &ldquo;90%&rdquo; range kept covering well under 90% of totals over more seasons, we would rebuild it, for example from recent seasons' errors only.</li>
+      </ul>
+    </div>
+    <p class="src-links"><span>In the repository:</span> <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/exploratory_after_test.json">checks run after the final test</a></p>
   </section>
 
   <!-- ======================================================= CONCLUSION -->
@@ -557,16 +611,24 @@
       <h2 class="lower-third">Conclusion</h2>
     </header>
     <blockquote class="pull">At the halfway point, a simple model that knows the score, the wickets lost and the era misses by about 17 runs on average, against about 22 for the commentator's doubling rule, and the result held on two seasons it had never seen.</blockquote>
-    <div class="concl-grid">
-      <div><h3>What mattered</h3><p>Modelling the score properly: a straight line with its own starting point gives most of the gain over both rules. The Impact Player era indicator adds the only extra gain we could establish, about 0.35 runs, nearly all in 2023&ndash;2024.</p></div>
-      <div><h3>What did not</h3><p>Recent momentum, the venue and gradient boosting each changed the error by less than 0.3 runs, which we could not tell apart from chance. Wickets clearly lower the runs still to come (about 6 runs each in the model), but adding them did not measurably improve accuracy.</p></div>
-      <div><h3>Confirmed on unseen seasons</h3><p>In the one-time test on 141 innings from 2025&ndash;2026, the frozen model missed by 16.7 runs against 22.2 for doubling: 5.5 runs better (95% CI 3.1 to 8.0), matching its 16.8 on validation. The learned ratio did worse than doubling there, because teams scored faster early and the historical multiplier overshot.</p></div>
+    <div class="editorial">
+      <h3>What surprised us</h3>
+      <p>Most of the cricket ideas we expected to matter added little: momentum, the venue and the league's scoring level each changed the error by less than 0.3 runs, and gradient boosting was not reliably better than a straight line. Even wickets, which clearly lower the runs still to come, did not measurably improve accuracy once the score was known. The biggest gain came from something much simpler: letting the prediction line start above zero, where doubling forces it through zero.</p>
     </div>
+    <h3>What we learned, step by step</h3>
+    <ol class="argument">
+      <li><strong>Doubling predicts too low because 2 is the wrong multiplier.</strong> Teams have finished at about 2.2 times their over-10 score, so the &times;2 rule misses low by 15 runs on average. Fixing the multiplier (the learned ratio) largely removes that bias (it then misses high by about 3), but its error only falls from 22.0 to 20.3.</li>
+      <li><strong>Most of the gain comes from letting the line start above zero.</strong> Both rules force a team on 0 to finish on 0. A ridge line with its own starting point, using the score alone, already cuts the error to 17.2: 4.8 runs better than doubling (95% CI 3.4 to 6.1).</li>
+      <li><strong>Beyond the score, only the era indicator gave an established gain.</strong> It added about 0.35 runs (95% CI 0.15 to 0.56), almost all in 2023&ndash;2024. Wickets clearly lower the runs still to come (about 6 runs each), but their added accuracy was not established, and momentum and venue added almost nothing.</li>
+      <li><strong>We kept the simpler model.</strong> Gradient boosting was 0.26 runs better, but the 95% CI of that gap (&minus;0.71 to +0.18) includes zero, and our rule, fixed in advance, was to switch only if it did not.</li>
+      <li><strong>The one-time test confirmed the main result.</strong> On 141 unseen innings from 2025&ndash;2026, the frozen model missed by 16.7 runs against 22.2 for doubling: 5.5 runs better (95% CI 3.1 to 8.0), in line with its 16.8 on validation. Its &ldquo;90%&rdquo; range held 86.5% of totals, slightly under 90%, but with 141 innings that is within the expected margin.</li>
+    </ol>
     <h3>What we would try next</h3>
     <ul>
       <li>Player information, such as who is batting and how many overs the best bowlers have left.</li>
       <li>Retraining as more Impact Player seasons arrive, which may reduce the underprediction of high-scoring innings.</li>
       <li>A separate model for chases, which behave differently because the target shapes how teams bat.</li>
+      <li>Squad strength and changes between seasons, such as auction buys and retained players, which the model cannot see at all.</li>
     </ul>
   </section>
 
@@ -577,7 +639,7 @@
     </header>
     <ol class="steps">
       <li><div>Clone the <a href="https://github.com/raimarao22/ipl-over10-predictor">repository</a> and install the libraries with <code>pip install -r requirements.txt</code> (pandas, NumPy, scikit-learn).</div></li>
-      <li><div>Download the IPL JSON zip from <a href="https://cricsheet.org/downloads/">Cricsheet</a> into <code>data/</code>. Our copy: built 7 October 2026, 1,243 matches, SHA-256 <code class="hash">6fe9142db9e139e4f77a5634ddc61c1c72a26a56bee2fe5affe5921867de04b3</code>. A newer download may differ.</div></li>
+      <li><div>Download the IPL JSON zip from <a href="https://cricsheet.org/downloads/">Cricsheet</a> into <code>data/</code>. Our copy: built 7 October 2026, 1,243 matches, SHA-256 <code class="hash">5757e04287179767ff8495f02902bd13812b9572ec8fa2ac1347ec2e9c6d4709</code>. A newer download may differ.</div></li>
       <li><div>Run the scripts in <code>src/</code> from the repository root, in this order:
         <div class="table-wrap"><table>
           <thead><tr><th scope="col">Script</th><th scope="col">What it does</th><th scope="col">Output</th></tr></thead>
@@ -590,6 +652,7 @@
             <tr><td><code>train_validate.py</code></td><td>All model choices on walk-forward folds; frozen weights</td><td>Validation MAE 16.8, <code>chosen_model.json</code></td></tr>
             <tr><td><code>ablation_all.py</code></td><td>All 64 feature combinations, and where the gain comes from (checked after the model was chosen)</td><td><code>ablation_all.csv</code>, <code>feature_gains.json</code></td></tr>
             <tr><td><code>leakage_demo.py</code></td><td>The deliberate leakage example</td><td>16.73 vs 16.59</td></tr>
+            <tr><td><code>make_splits.py</code></td><td>Lists the role of every innings in the evaluation (warm-up, training only, validation fold, test)</td><td><code>splits.csv</code></td></tr>
             <tr><td><code>export_web.py</code></td><td>Writes this website's data files</td><td><code>docs/data/</code></td></tr>
             <tr><td><code>verify_final_test.py</code></td><td>Read-only check of the one-time final test (<code>final_test.py</code>, run once and never re-run): confirms the published predictions and numbers</td><td>MAE 16.7 vs 22.2 (x2), reproduced</td></tr>
             <tr><td><code>explore_after_test.py</code></td><td>Exploratory checks after the final test; not used for any decision</td><td><code>exploratory_after_test.json</code></td></tr>
@@ -598,7 +661,18 @@
       </div></li>
       <li><div>Compare your output with the numbers above and with the files in <code>results/</code>, which record every result on this site.</div></li>
     </ol>
-    <p>Split: development seasons 2008&ndash;2024, excluding the first 11 innings of 2008 (warm-up rows with too little history for the venue and league features, used only as history); walk-forward validation on 2019&ndash;2024; final test 2025&ndash;2026, run once. Random seed 0. Every modelling decision and its evidence is logged in <code>DECISIONS.md</code>.</p>
+    <p>Split: development seasons 2008&ndash;2024, excluding the first 11 innings of 2008 (warm-up rows with too little history for the venue and league features, used only as history); walk-forward validation on 2019&ndash;2024; final test 2025&ndash;2026, run once. Random seed 0. Every modelling decision and its evidence is logged in <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/DECISIONS.md"><code>DECISIONS.md</code></a>; the full setup and run steps are in the <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/README.md">README</a>.</p>
+
+    <h3>References</h3>
+    <ol class="refs">
+      <li>Cricsheet. IPL ball-by-ball data, JSON format. <a href="https://cricsheet.org/downloads/">cricsheet.org/downloads</a>. Licensed CC-BY-4.0. Downloaded 24 October 2026.</li>
+      <li>A. E. Hoerl and R. W. Kennard (1970). Ridge regression: biased estimation for nonorthogonal problems. <em>Technometrics</em> 12(1), 55&ndash;67.</li>
+      <li>Cricket.com (2 December 2022). <a href="https://www.cricket.com/news/ipl-confirms-impact-player-rule-for-2023-season-1669969573234">IPL confirms Impact Player rule for 2023 season</a>. Source for the Impact Player rule starting in 2023.</li>
+      <li>B. Efron (1979). Bootstrap methods: another look at the jackknife. <em>The Annals of Statistics</em> 7(1), 1&ndash;26. Basis of our confidence intervals.</li>
+      <li>F. Pedregosa et al. (2011). Scikit-learn: machine learning in Python. <em>Journal of Machine Learning Research</em> 12, 2825&ndash;2830.</li>
+    </ol>
+    <h3>Tools and libraries</h3>
+    <p>Python with pandas, NumPy and scikit-learn for the analysis. The website is plain HTML, CSS and JavaScript, with charts by <a href="https://www.chartjs.org/">Chart.js</a> 4.4.1 (MIT licence) and the fonts Barlow, Barlow Condensed and Big Shoulders Display from <a href="https://fonts.google.com/">Google Fonts</a> (SIL Open Font Licence). Hosted on GitHub Pages.</p>
 
     <h3>Team and AI use</h3>
     <p><strong>Together:</strong> research question and proposal, baselines, evaluation design (walk-forward validation, pre-set decision rules, one-time test plan), all major decisions and ideas, interpreting results, limitations and conclusion, and reviewing each other's work.</p>
@@ -617,7 +691,7 @@
   <div class="wrap">
   <p class="foot-title">Beat the Commentator</p>
   <p>Raima Rao and Rishit Garg. ES 335 Machine Learning, IIT Gandhinagar, 2026.</p>
-  <p>Source code on <a href="https://github.com/raimarao22/ipl-over10-predictor">GitHub</a>. Data from <a href="https://cricsheet.org">Cricsheet</a>, CC-BY-4.0.</p>
+  <p>Source code on <a href="https://github.com/raimarao22/ipl-over10-predictor">GitHub</a>. Data from <a href="https://cricsheet.org">Cricsheet</a>, CC-BY-4.0. <a href="#reproduce">References, tools and AI use</a>.</p>
   </div>
 </footer>
 
