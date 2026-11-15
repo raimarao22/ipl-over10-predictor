@@ -728,3 +728,10 @@ input[type=range] { height: 26px; cursor: pointer; }
 /* references */
 .refs { padding-left: 1.4rem; }
 .refs li { margin: .35rem 0; }
+
+/* short editorial blocks: why, what we expected, what surprised us, what would change our mind */
+.editorial { margin: 1.25rem 0; padding: .9rem 1.2rem; background: var(--panel); border-left: 4px solid var(--muted); }
+.editorial h3 { margin: 0 0 .35rem; }
+.editorial p, .editorial ul { margin: 0; }
+.editorial ul { padding-left: 1.2rem; }
+.editorial li { margin: .3rem 0; }

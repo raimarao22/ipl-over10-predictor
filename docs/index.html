@@ -256,6 +256,14 @@
       <div><dt>Known at that moment</dt><dd>Every ball of overs 1&ndash;10, the venue, the season, and results of earlier matches</dd></div>
     </dl>
     <p><strong>What we do not claim.</strong> The model covers IPL men's first innings scheduled for 20 overs. It predicts; it does not show what causes scores. It is not a betting tool.</p>
+    <div class="editorial">
+      <h3>Why this question</h3>
+      <p>The halfway point is when viewers, commentators and teams first ask where an innings is heading, and doubling the score is the quick answer anyone can work out in their head. That makes it a fair baseline: if a model cannot beat a rule this simple, it is not worth using. The question is also well defined: one moment (the end of over 10), one number to predict, and ball-by-ball records for every IPL match since 2008, so every method can be compared on the same real innings.</p>
+    </div>
+    <div class="editorial">
+      <h3>What we expected</h3>
+      <p>Going in, we thought that wickets lost, recent momentum (runs in the last five and last two overs), the venue and the league's recent scoring level might each improve on the score alone, and we expected the jump in scoring from 2023 to make those seasons harder to predict. Rather than assume any of these helped, we fixed a rule before testing: keep a feature only if removing it worsens walk-forward error by at least 0.1 runs.</p>
+    </div>
   </section>
 
   <!-- ======================================================= DATA -->
@@ -586,6 +594,14 @@
       <li><strong>Small test set</strong> 141 innings in 2025&ndash;2026, so the test is less precise than validation: the gain over doubling could be anywhere from about 3 to 8 runs, and the range coverage of 86.5% has a wide margin too.</li>
       <li><strong>Scope</strong> Rain-reduced matches and second innings are excluded, so results do not apply to them.</li>
     </ul>
+    <div class="editorial">
+      <h3>What would change our conclusion</h3>
+      <ul>
+        <li>If a more flexible model, such as gradient boosting, beat ridge on new seasons with a 95% interval entirely below zero, we would switch to it.</li>
+        <li>If the advantage over doubling shrank on future seasons until its interval included zero, for example because scoring patterns change again, our main claim would no longer hold.</li>
+        <li>If the &ldquo;90%&rdquo; range kept covering well under 90% of totals over more seasons, we would rebuild it, for example from recent seasons' errors only.</li>
+      </ul>
+    </div>
     <p class="src-links"><span>In the repository:</span> <a href="https://github.com/raimarao22/ipl-over10-predictor/blob/main/results/exploratory_after_test.json">checks run after the final test</a></p>
   </section>
 
@@ -595,6 +611,10 @@
       <h2 class="lower-third">Conclusion</h2>
     </header>
     <blockquote class="pull">At the halfway point, a simple model that knows the score, the wickets lost and the era misses by about 17 runs on average, against about 22 for the commentator's doubling rule, and the result held on two seasons it had never seen.</blockquote>
+    <div class="editorial">
+      <h3>What surprised us</h3>
+      <p>Most of the cricket ideas we expected to matter added little: momentum, the venue and the league's scoring level each changed the error by less than 0.3 runs, and gradient boosting was not reliably better than a straight line. Even wickets, which clearly lower the runs still to come, did not measurably improve accuracy once the score was known. The biggest gain came from something much simpler: letting the prediction line start above zero, where doubling forces it through zero.</p>
+    </div>
     <h3>What we learned, step by step</h3>
     <ol class="argument">
       <li><strong>Doubling predicts too low because 2 is the wrong multiplier.</strong> Teams have finished at about 2.2 times their over-10 score, so the &times;2 rule misses low by 15 runs on average. Fixing the multiplier (the learned ratio) largely removes that bias (it then misses high by about 3), but its error only falls from 22.0 to 20.3.</li>
@@ -608,6 +628,7 @@
       <li>Player information, such as who is batting and how many overs the best bowlers have left.</li>
       <li>Retraining as more Impact Player seasons arrive, which may reduce the underprediction of high-scoring innings.</li>
       <li>A separate model for chases, which behave differently because the target shapes how teams bat.</li>
+      <li>Squad strength and changes between seasons, such as auction buys and retained players, which the model cannot see at all.</li>
     </ul>
   </section>
 
