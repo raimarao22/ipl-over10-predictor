@@ -706,3 +706,25 @@ input[type=range] { height: 26px; cursor: pointer; }
 .final-done tr.comm td:first-child { border-left: 6px solid var(--comm); }
 .final-done tr.ratio td:first-child { border-left: 6px solid var(--ratio); }
 .final-done tr.other td:first-child { border-left: 6px solid var(--other); }
+
+/* links from each tab to the matching files in the repository */
+.src-links { margin: 1.5rem 0 0; padding: .6rem .9rem; border-left: 3px solid var(--rule); background: var(--panel); color: var(--muted); font-size: .92rem; }
+.src-links span { color: var(--ink); font-weight: 600; margin-right: .25rem; }
+
+/* comparison and split tables */
+.cmp-table td:nth-child(2), .cmp-table td:nth-child(3), .cmp-table th:nth-child(2), .cmp-table th:nth-child(3),
+.split-table td:nth-child(3), .split-table th:nth-child(3) { text-align: right; white-space: nowrap; }
+.cmp-table tr.ours td { background: var(--th); }
+.cmp-table tr.ours td:first-child { border-left: 4px solid var(--red); }
+.split-table tr.sub td { color: var(--muted); }
+.split-table tr.sub td:first-child, .split-table tr.sub td:nth-child(3) { color: var(--ink); }
+
+/* conclusion: the argument in five steps */
+.argument { counter-reset: step; list-style: none; padding: 0; display: grid; gap: .75rem; }
+.argument li { counter-increment: step; position: relative; background: var(--panel); border-left: 6px solid var(--red); padding: .9rem 1.1rem .9rem 3.4rem; }
+.argument li::before { content: counter(step); position: absolute; left: 1rem; top: .75rem; font-family: var(--display); font-weight: 900; font-size: 1.6rem; color: var(--red-text); }
+.argument strong { display: block; margin-bottom: .2rem; }
+
+/* references */
+.refs { padding-left: 1.4rem; }
+.refs li { margin: .35rem 0; }
